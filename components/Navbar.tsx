@@ -45,7 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage }) => {
           onClick={() => onNavigate("home")}
         >
           <img
-            src="/images/logo.webp"
+            src="/images/MYSPA.png"
             alt="MySpa Logo"
             className="h-12 w-auto object-contain"
           />

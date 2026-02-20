@@ -17,7 +17,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               onClick={() => onNavigate?.("home")}
             >
               <img
-                src="Public/images/logo.webp"
+                 src="/images/MYSPA.png"
                 alt="MySpa Logo"
                 className="h-12 w-auto object-contain"
               />
