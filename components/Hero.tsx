@@ -52,7 +52,7 @@ const Hero: React.FC = () => {
             <div className="relative z-10 p-1 bg-white/40 backdrop-blur-md rounded-[2.5rem] shadow-2xl border border-white/60">
               <div className="relative bg-white rounded-[2rem] overflow-hidden shadow-inner border border-gray-50">
                 <img 
-                  src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop" 
+                  src="/images/photo-1551288049-bebda4e38f71.jpeg" 
                   alt="MySpa Platform Interface" 
                   className="w-full h-auto block"
                 />

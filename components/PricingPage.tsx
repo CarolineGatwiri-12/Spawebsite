@@ -336,7 +336,7 @@ const PricingPage: React.FC = () => {
       <section className="relative py-32 overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1544161515-4ad6ce6db874?q=80&w=2070&auto=format&fit=crop" 
+            src="\images\cta2.jpeg" 
             className="w-full h-full object-cover"
             alt="Zen Spa Treatment"
           />

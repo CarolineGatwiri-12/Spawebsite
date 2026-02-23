@@ -92,10 +92,11 @@ const FeaturesPage: React.FC = () => {
               <div className="relative">
                 <div className="relative rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white rotate-2 group hover:rotate-0 transition-transform duration-1000 max-w-[400px] ml-auto">
                   <img 
-                    src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2070&auto=format&fit=crop" 
+                   src="/images/erp.jpeg" 
                     alt="Artisan Spa Experience" 
                     className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
+                
                   <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent"></div>
                 </div>
                 <div className="absolute -bottom-4 -left-6 z-20">

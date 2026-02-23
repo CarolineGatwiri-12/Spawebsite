@@ -205,7 +205,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-xl flex flex-col lg:flex-row">
             <div className="lg:w-2/5 min-h-[400px]">
               <img 
-                src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2070&auto=format&fit=crop" 
+                src="\images\supportteam.jpeg" 
                 alt="Spa Treatment in Action" 
                 className="w-full h-full object-cover block"
               />
@@ -244,7 +244,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       <section className="relative py-32 overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1544161515-4ad6ce6db874?q=80&w=2070&auto=format&fit=crop" 
+            src="\images\cta.jpeg" 
             className="w-full h-full object-cover"
             alt="Zen Spa Treatment"
           />
