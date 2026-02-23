@@ -136,7 +136,7 @@ const PricingPage: React.FC = () => {
                <div className="relative group">
                   <div className="relative rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
                     <img 
-                      src="https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=2073&auto=format&fit=crop" 
+                      src="\images\pricing.jpeg" 
                       alt="Facial Treatment" 
                       className="w-full h-[400px] object-cover block"
                     />
