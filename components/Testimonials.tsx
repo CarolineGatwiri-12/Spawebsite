@@ -1,103 +1,422 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const testimonials = [
   {
     name: "Elena Rodriguez",
     role: "Founder, Azure Wellness Spa",
-    content: "MySpa has completely transformed the way we manage our multi-location brand. The intuitive ERP modules and real-time analytics have been total game-changers for our bottom line.",
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop"
+    location: "Miami, FL",
+    content:
+      "MySpa has completely transformed the way we manage our multi-location brand. The intuitive ERP modules and real-time analytics have been total game-changers for our bottom line.",
+    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
+    stat: { value: "+38%", label: "Revenue Growth" },
   },
   {
     name: "Marcus Thorne",
     role: "Managing Director, Zenith Retreats",
-    content: "Managing 15 locations across the coast was a nightmare before MySpa. Now, I have a unified command center that handles everything from HR to high-precision inventory tracking.",
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop"
+    location: "Malibu, CA",
+    content:
+      "Managing 15 locations across the coast was a nightmare before MySpa. Now I have a unified command center that handles everything from HR to high-precision inventory tracking.",
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop",
+    stat: { value: "15×", label: "Locations Managed" },
   },
   {
     name: "Dr. Sarah Chen",
     role: "Director, Holistic Medical Spa",
-    content: "The level of detail in the client management system is unparalleled. We can track specific preferences and medical history with the security and precision our clinic requires.",
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop"
-  }
+    location: "New York, NY",
+    content:
+      "The level of detail in the client management system is unparalleled. We track preferences and medical history with the security and precision our clinic demands.",
+    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop",
+    stat: { value: "100%", label: "Compliance Rate" },
+  },
+  {
+    name: "Priya Kapoor",
+    role: "CEO, Luminos Day Spa Group",
+    location: "London, UK",
+    content:
+      "Switching to MySpa was the best operational decision we've made. Booking rates are up, staff scheduling is seamless, and clients consistently remark on the improved experience.",
+    img: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?q=80&w=200&auto=format&fit=crop",
+    stat: { value: "+52%", label: "Booking Rate" },
+  },
 ];
+
+const slideVariants = {
+  enter: (dir: number) => ({
+    x: dir > 0 ? 60 : -60,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+  exit: (dir: number) => ({
+    x: dir > 0 ? -60 : 60,
+    opacity: 0,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  }),
+};
 
 const Testimonials: React.FC = () => {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
-  const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const next = useCallback(() => {
+    setDirection(1);
+    setCurrent((prev) => (prev + 1) % testimonials.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setDirection(-1);
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  }, []);
+
+  const goTo = (idx: number) => {
+    setDirection(idx > current ? 1 : -1);
+    setCurrent(idx);
+  };
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next, isPaused]);
+
+  const t = testimonials[current];
 
   return (
-    <section className="py-24 relative overflow-hidden bg-white">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#F5F7FA] pointer-events-none hidden lg:block"></div>
-      
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 items-center">
-          <div className="lg:w-1/3">
-            <div className="flex items-center gap-2 text-[#207D40] font-black uppercase tracking-[0.3em] text-[10px] mb-6">
-               <Star size={12} fill="currentColor" /> Customer Success
+    <section
+      className="relative py-28 overflow-hidden"
+      style={{ background: '#FDFAF6' }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* ── Background decorations ── */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* Dot grid */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.045]">
+          <defs>
+            <pattern id="tdots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.4" fill="#1a2e1a" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#tdots)" />
+        </svg>
+
+        {/* Green glow top-left */}
+        <div
+          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, #2E8B35, transparent 65%)', filter: 'blur(80px)' }}
+        />
+        {/* Amber glow bottom-right */}
+        <div
+          className="absolute -bottom-20 -right-20 w-[480px] h-[480px] rounded-full opacity-15"
+          style={{ background: 'radial-gradient(circle, #F5A800, transparent 65%)', filter: 'blur(80px)' }}
+        />
+
+        {/* Large quote watermark */}
+        <div
+          className="absolute right-12 top-1/2 -translate-y-1/2 select-none opacity-[0.03] text-[#0d1f0d] leading-none"
+          style={{
+            fontFamily: '"Playfair Display", Georgia, serif',
+            fontSize: 'clamp(200px, 28vw, 380px)',
+            fontWeight: 900,
+          }}
+        >
+          "
+        </div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+
+        {/* ── Section header ── */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+          <div className="max-w-xl">
+            <div
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-[0.2em] mb-6"
+              style={{
+                borderColor: 'rgba(46,139,53,0.3)',
+                background: 'rgba(46,139,53,0.07)',
+                color: '#2E8B35',
+                fontFamily: '"DM Sans", sans-serif',
+              }}
+            >
+              <Star size={9} fill="currentColor" /> Customer Success
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#111827] mb-8 tracking-tighter leading-tight">
-              Leading the <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#207D40] to-[#F7A300]">Industry</span> <br />
+
+            <h2
+              className="text-4xl md:text-5xl lg:text-[3.2rem] font-bold leading-[1.1] tracking-[-0.025em] text-[#0d1f0d]"
+              style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+            >
+              Leading the{' '}
+              <em
+                className="not-italic"
+                style={{
+                  background: 'linear-gradient(100deg, #2E8B35 10%, #F5A800 85%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Industry
+              </em>{' '}
               Forward.
             </h2>
-            <p className="text-sm text-gray-500 font-medium mb-10 leading-relaxed">
-              We take pride in empowering wellness leaders globally. Join thousands of spa owners who have scaled their operations with MySpa.
-            </p>
-            
-            <div className="flex gap-3">
-              <button 
-                onClick={prev}
-                className="p-3 border border-gray-100 hover:border-[#207D40] text-gray-300 hover:text-[#207D40] rounded-xl transition-all duration-300"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button 
-                onClick={next}
-                className="p-3 border border-gray-100 hover:border-[#207D40] text-gray-300 hover:text-[#207D40] rounded-xl transition-all duration-300"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
           </div>
 
-          <div className="lg:w-2/3">
-            <div className="relative">
-              {/* Main Testimonial Card */}
-              <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-gray-50 relative overflow-hidden group">
-                <Quote className="absolute -top-6 -right-6 text-gray-50 opacity-10" size={200} />
-                
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8">
-                  <div className="relative flex-shrink-0">
-                    <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#207D40] to-[#F7A300] rounded-[1.5rem] blur-lg opacity-10 group-hover:opacity-20 transition-opacity"></div>
-                    <img 
-                      src={testimonials[current].img} 
-                      alt={testimonials[current].name} 
-                      className="relative w-24 h-24 md:w-36 md:h-36 rounded-[1.5rem] object-cover shadow-lg grayscale group-hover:grayscale-0 transition-all duration-700"
-                    />
+          {/* Navigation controls */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={prev}
+              className="w-11 h-11 rounded-xl border flex items-center justify-center transition-all duration-300 hover:scale-105"
+              style={{
+                borderColor: 'rgba(46,139,53,0.25)',
+                background: 'white',
+                color: '#2E8B35',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+              }}
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            {/* Dot indicators */}
+            <div className="flex items-center gap-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goTo(i)}
+                  className="transition-all duration-300 rounded-full"
+                  style={{
+                    width: i === current ? 24 : 8,
+                    height: 8,
+                    background: i === current ? '#2E8B35' : 'rgba(46,139,53,0.2)',
+                  }}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={next}
+              className="w-11 h-11 rounded-xl border flex items-center justify-center transition-all duration-300 hover:scale-105"
+              style={{
+                borderColor: 'rgba(46,139,53,0.25)',
+                background: 'white',
+                color: '#2E8B35',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
+              }}
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* ── Main carousel + side thumbnails ── */}
+        <div className="grid lg:grid-cols-[1fr_280px] gap-6 items-start">
+
+          {/* Active testimonial card */}
+          <div className="relative overflow-hidden">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={current}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="relative rounded-[2rem] overflow-hidden"
+                style={{
+                  background: 'linear-gradient(145deg, #2E8B35, #F5A800)',
+                  boxShadow: '0 40px 80px black, 0 0 0 1px black',
+                }}
+              >
+                {/* Top accent bar */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px]"
+                  style={{ background: 'linear-gradient(90deg, #2E8B35, #F5A800, transparent)' }}
+                />
+
+                <div className="p-8 md:p-12">
+                  {/* Quote icon */}
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-8"
+                    style={{ background: 'rgba(46,139,53,0.15)', border: '1px solid rgba(46,139,53,0.2)' }}
+                  >
+                    <Quote size={16} color="#2E8B35" />
                   </div>
-                  
-                  <div>
-                    <div className="flex gap-0.5 mb-4">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} size={12} fill="#207D40" className="text-[#207D40]" />
-                      ))}
+
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={13} fill="#F5A800" color="#F5A800" />
+                    ))}
+                  </div>
+
+                  {/* Quote text */}
+                  <p
+                    className="text-xl md:text-2xl text-white font-medium leading-[1.6] mb-10 tracking-[-0.01em]"
+                    style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+                  >
+                    "{t.content}"
+                  </p>
+
+                  {/* Author row */}
+                  <div className="flex items-center justify-between flex-wrap gap-6">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div
+                          className="absolute -inset-1 rounded-2xl opacity-40 blur-md"
+                          style={{ background: 'linear-gradient(135deg, #2E8B35, #F5A800)' }}
+                        />
+                        <img
+                          src={t.img}
+                          alt={t.name}
+                          className="relative w-14 h-14 rounded-2xl object-cover"
+                          style={{ border: '2px solid rgba(255,255,255,0.1)' }}
+                        />
+                      </div>
+                      <div>
+                        <p
+                          className="text-white font-bold text-lg leading-tight"
+                          style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+                        >
+                          {t.name}
+                        </p>
+                        <p
+                          className="text-[11px] font-semibold uppercase tracking-[0.15em] mt-1"
+                          style={{ color: '#2E8B35', fontFamily: '"DM Sans", sans-serif' }}
+                        >
+                          {t.role}
+                        </p>
+                        <p
+                          className="text-[11px] mt-0.5"
+                          style={{ color: 'rgba(255,255,255,0.3)', fontFamily: '"DM Sans", sans-serif' }}
+                        >
+                          {t.location}
+                        </p>
+                      </div>
                     </div>
-                    
-                    <p className="text-lg md:text-xl text-[#111827] font-bold italic mb-6 leading-relaxed tracking-tight">
-                      "{testimonials[current].content}"
-                    </p>
-                    
-                    <div>
-                      <h4 className="font-black text-xl text-[#111827] tracking-tight">{testimonials[current].name}</h4>
-                      <p className="text-[#207D40] font-black uppercase tracking-widest text-[10px] mt-1">{testimonials[current].role}</p>
+
+                    {/* Stat badge */}
+                    <div
+                      className="px-6 py-4 rounded-2xl"
+                      style={{
+                        background: 'rgba(245,168,0,0.08)',
+                        border: '1px solid rgba(245,168,0,0.2)',
+                      }}
+                    >
+                      <p
+                        className="text-3xl font-bold leading-none"
+                        style={{ color: 'white', fontFamily: '"Playfair Display", Georgia, serif' }}
+                      >
+                        {t.stat.value}
+                      </p>
+                      <p
+                        className="text-[10px] font-bold uppercase tracking-[0.15em] mt-1.5"
+                        style={{ color: 'white', fontFamily: '"DM Sans", sans-serif' }}
+                      >
+                        {t.stat.label}
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
+
+                {/* Progress bar */}
+                <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                  {!isPaused && (
+                    <motion.div
+                      key={`progress-${current}`}
+                      className="h-full"
+                      style={{ background: 'linear-gradient(90deg, #2E8B35, #F5A800)' }}
+                      initial={{ width: '0%' }}
+                      animate={{ width: '100%' }}
+                      transition={{ duration: 5, ease: 'linear' }}
+                    />
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Side thumbnail stack */}
+          <div className="hidden lg:flex flex-col gap-3">
+            {testimonials.map((item, i) => (
+              <motion.button
+                key={i}
+                onClick={() => goTo(i)}
+                whileHover={{ x: -4 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="relative w-full text-left rounded-2xl p-4 flex items-center gap-3 transition-all duration-300"
+                style={{
+                  background: i === current
+                    ? 'linear-gradient(135deg, #0d1f0d, #122216)'
+                    : 'rgba(13,31,13,0.04)',
+                  border: i === current
+                    ? '1px solid rgba(46,139,53,0.25)'
+                    : '1px solid rgba(13,31,13,0.06)',
+                  boxShadow: i === current ? '0 8px 24px rgba(13,31,13,0.12)' : 'none',
+                }}
+              >
+                {i === current && (
+                  <div
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[60%] rounded-r-full"
+                    style={{ background: '#2E8B35' }}
+                  />
+                )}
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-10 h-10 rounded-xl object-cover flex-shrink-0"
+                  style={{
+                    filter: i === current ? 'none' : 'grayscale(60%)',
+                    opacity: i === current ? 1 : 0.6,
+                  }}
+                />
+                <div className="min-w-0">
+                  <p
+                    className="text-sm font-bold truncate leading-tight"
+                    style={{
+                      color: i === current ? '#ffffff' : '#3a4e3a',
+                      fontFamily: '"DM Sans", sans-serif',
+                    }}
+                  >
+                    {item.name}
+                  </p>
+                  <p
+                    className="text-[10px] truncate mt-0.5"
+                    style={{
+                      color: i === current ? '#2E8B35' : '#7a9a7a',
+                      fontFamily: '"DM Sans", sans-serif',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item.stat.value} {item.stat.label}
+                  </p>
+                </div>
+              </motion.button>
+            ))}
+
+            {/* Total count */}
+            <div
+              className="mt-3 rounded-2xl p-4 text-center"
+              style={{
+                background: 'rgba(46,139,53,0.05)',
+                border: '1px solid rgba(46,139,53,0.1)',
+              }}
+            >
+              <p
+                className="text-2xl font-bold text-[#0d1f0d]"
+                style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+              >
+                2,400+
+              </p>
+              <p
+                className="text-[10px] font-bold uppercase tracking-[0.15em] mt-1"
+                style={{ color: '#2E8B35', fontFamily: '"DM Sans", sans-serif' }}
+              >
+                Spa Owners Trust Us
+              </p>
             </div>
           </div>
         </div>

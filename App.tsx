@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -13,12 +13,268 @@ import AboutPage from './components/AboutPage';
 import ResourcesPage from './components/ResourcesPage';
 import FAQPage from './components/FAQPage';
 import ContactPage from './components/ContactPage';
-import { Activity, Sparkles, ArrowRight } from 'lucide-react';
+import { Activity, Sparkles, ArrowRight, Play } from 'lucide-react';
+
+const BRAND = {
+  green: '#2E8B35',
+  greenLight: '#A8C5A0',
+  amber: '#F5A800',
+  amberLight: '#F9D98C',
+  dark: '#0d1f0d',
+};
+
+const InnovationSection: React.FC = () => {
+  const [videoHovered, setVideoHovered] = useState(false);
+
+  return (
+    <section className="relative overflow-hidden" style={{ background: BRAND.dark }}>
+
+      {/* ── Top rule ── */}
+      <div className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: `linear-gradient(90deg, transparent, ${BRAND.green}40, transparent)` }} />
+
+      {/* ── Background image with green tint ── */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=2070&auto=format&fit=crop"
+          alt="Luxury Spa Architecture"
+          className="w-full h-full object-cover"
+          style={{ opacity: 0.18, mixBlendMode: 'luminosity', animation: 'breathe 28s ease-in-out infinite' }}
+        />
+        
+        {/* Green glow center */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[700px] h-[500px] rounded-full opacity-20"
+            style={{ background: `radial-gradient(circle, ${BRAND.green}, transparent 65%)`, filter: 'blur(80px)' }} />
+        </div>
+        {/* Amber glow edge */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] opacity-10"
+          style={{ background: `radial-gradient(circle, ${BRAND.amber}, transparent 65%)`, filter: 'blur(60px)' }} />
+      </div>
+
+      
+
+      {/* ── Content ── */}
+      <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-10 py-32">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+          {/* Left: headline + CTAs */}
+          <div>
+            {/* Eyebrow */}
+            <div
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-[0.2em] mb-8"
+              style={{
+                borderColor: `${BRAND.green}40`,
+                background: `${BRAND.green}12`,
+                color: 'white',
+                fontFamily: '"DM Sans", sans-serif',
+              }}
+            >
+              <Activity size={9} className="animate-pulse" /> The Precision of Serenity
+            </div>
+
+            {/* Headline */}
+            <h2
+              className="text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-[1.08] tracking-[-0.025em] text-white mb-6"
+              style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+            >
+              Experience <br />
+              the{' '}
+              <em
+                className="not-italic"
+                style={{
+                  background: `linear-gradient(100deg, ${BRAND.greenLight} 10%, ${BRAND.amber} 85%)`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  animation: 'shimmer 6s linear infinite',
+                  backgroundSize: '200% auto',
+                }}
+              >
+                Innovation
+              </em>
+            </h2>
+
+            <p
+              className="text-base leading-[1.75] mb-10 max-w-lg"
+              style={{ color: 'White', fontFamily: '"DM Sans", sans-serif' }}
+            >
+              We've unified the clinical precision of enterprise ERP with the deep tranquility
+              of a world-class spa. It's not just management software — it's the evolution of wellness.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-start gap-4 mb-14">
+              <button
+                className="flex items-center gap-2 text-sm font-semibold px-7 py-3.5 rounded-xl text-white transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                style={{
+                  background: `linear-gradient(135deg, ${BRAND.green}, #1e6325)`,
+                  boxShadow: `0 12px 32px ${BRAND.green}40`,
+                  fontFamily: '"DM Sans", sans-serif',
+                }}
+              >
+                See the Future
+                <ArrowRight size={15} />
+              </button>
+
+              <button
+                className="flex items-center gap-2 text-sm font-semibold px-7 py-3.5 rounded-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'rgba(255,255,255,0.75)',
+                  fontFamily: '"DM Sans", sans-serif',
+                }}
+              >
+                <span
+                  className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ background: BRAND.amber }}
+                >
+                  <Play size={8} fill="white" color="white" />
+                </span>
+                Watch Demo
+              </button>
+            </div>
+
+            {/* Stats row */}
+            <div className="flex items-center gap-8">
+              {[
+                { value: '1,200+', label: 'Luxury Venues' },
+                { value: '98%', label: 'Satisfaction Rate' },
+                { value: '4 min', label: 'Avg. Setup Time' },
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col">
+                  <span
+                    className="text-2xl font-bold text-white leading-none"
+                    style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+                  >
+                    {stat.value}
+                  </span>
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-[0.15em] mt-1.5"
+                    style={{ color: '#3a5a3a', fontFamily: '"DM Sans", sans-serif' }}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: feature highlight cards */}
+          <div className="relative hidden lg:block">
+            {/* Ambient glow behind cards */}
+            <div
+              className="absolute inset-0 rounded-3xl opacity-20 pointer-events-none"
+              style={{ background: `radial-gradient(circle at 50% 50%, ${BRAND.green}, transparent 70%)`, filter: 'blur(40px)' }}
+            />
+
+            <div className="flex flex-col gap-4 relative">
+              {[
+                {
+                  icon: Sparkles,
+                  title: 'AI-Powered Analytics',
+                  desc: 'Predictive revenue insights and automated reports delivered daily.',
+                  accent: BRAND.green,
+                  accentLight: 'white',
+                },
+                {
+                  icon: Activity,
+                  title: 'Real-Time Operations',
+                  desc: 'Live dashboards across all locations — bookings, staff, and stock in one view.',
+                  accent: BRAND.amber,
+                  accentLight: BRAND.amberLight,
+                  featured: true,
+                },
+                {
+                  icon: ArrowRight,
+                  title: 'Seamless Integrations',
+                  desc: 'Connect payment gateways, booking platforms, and POS systems effortlessly.',
+                  accent: BRAND.green,
+                  accentLight: BRAND.greenLight,
+                },
+              ].map((card, i) => (
+                <div
+                  key={i}
+                  className="relative flex items-start gap-4 p-5 rounded-2xl transition-all duration-300 group hover:-translate-y-1"
+                  style={{
+                    background: card.featured
+                      ? 'linear-gradient(135deg, rgba(46,139,53,0.15), rgba(245,168,0,0.05))'
+                      : 'rgba(255,255,255,0.03)',
+                    border: card.featured
+                      ? `1px solid ${BRAND.green}35`
+                      : '1px solid rgba(255,255,255,0.06)',
+                    boxShadow: card.featured ? `0 16px 40px rgba(0,0,0,0.3)` : 'none',
+                    transform: i === 1 ? 'translateX(24px)' : 'translateX(0)',
+                  }}
+                >
+                  {/* Left bar accent */}
+                  {card.featured && (
+                    <div
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[60%] rounded-r-full"
+                      style={{ background: card.accent }}
+                    />
+                  )}
+
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                      background: `${card.accent}18`,
+                      border: `1px solid ${card.accent}30`,
+                    }}
+                  >
+                    <card.icon size={16} color={card.accentLight} strokeWidth={1.8} />
+                  </div>
+
+                  <div>
+                    <p
+                      className="text-sm font-bold text-white leading-none mb-2"
+                      style={{ fontFamily: '"DM Sans", sans-serif' }}
+                    >
+                      {card.title}
+                    </p>
+                    <p
+                      className="text-[12px] leading-relaxed"
+                      style={{ color: 'white', fontFamily: '"DM Sans", sans-serif' }}
+                    >
+                      {card.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Bottom rule ── */}
+      <div className="absolute bottom-0 left-0 right-0 h-px"
+        style={{ background: `linear-gradient(90deg, transparent, ${BRAND.amber}30, transparent)` }} />
+
+      <style>{`
+        @keyframes breathe {
+          0%, 100% { transform: scale(1.02); }
+          50% { transform: scale(1.06); }
+        }
+        @keyframes shimmer {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
+        }
+        @keyframes sweep {
+          0% { left: -10%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { left: 110%; opacity: 0; }
+        }
+      `}</style>
+    </section>
+  );
+};
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<'home' | 'features' | 'pricing' | 'about' | 'resources' | 'faq' | 'contact'>('home');
 
-  // Handle navigation
   const navigate = (page: 'home' | 'features' | 'pricing' | 'about' | 'resources' | 'faq' | 'contact') => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -31,68 +287,13 @@ const App: React.FC = () => {
       <AboutSection />
       <PartnerSection />
       <Testimonials />
-      
-      {/* SECTION 6: THE INNOVATION - CINEMATIC INTEGRATION */}
-      <section className="relative h-[650px] flex items-center justify-center overflow-hidden bg-[#020406]">
-        {/* Cinematic Background Layer */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=2070&auto=format&fit=crop" 
-            alt="Ultra-Luxury Modern Spa Architecture"
-            className="w-full h-full object-cover scale-100 animate-breathing-scale opacity-65 block"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#020406] via-transparent to-[#020406]"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#020406] via-[#020406]/10 to-[#020406]"></div>
-          <div className="absolute inset-0 bg-[#020406]/30 mix-blend-multiply"></div>
-        </div>
-
-        <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-[#207D40]/10 to-transparent skew-x-[-45deg] animate-light-sweep"></div>
-          <div className="absolute bottom-0 right-[-100%] w-full h-full bg-gradient-to-r from-transparent via-[#F7A300]/5 to-transparent skew-x-[-45deg] animate-light-sweep-delayed"></div>
-        </div>
-
-        <div className="relative z-20 text-center px-4 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-[#207D40] text-[10px] font-black uppercase tracking-[0.5em] mb-8 shadow-2xl">
-            <Activity size={10} className="animate-pulse" /> The Precision of Serenity
-          </div>
-          
-          <div className="relative inline-block mb-8">
-            <div className="absolute -inset-10 bg-[#207D40]/20 blur-[100px] opacity-30 animate-pulse"></div>
-            
-            <h2 className="relative text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tighter leading-tight">
-              Experience <br /> the 
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#207D40] via-[#F7A300] to-[#207D40] bg-[length:200%_auto] animate-shimmer drop-shadow-[0_0_20px_rgba(32,125,64,0.3)]">
-                Innovation
-              </span>
-            </h2>
-          </div>
-          
-          <p className="text-gray-300 text-sm md:text-base font-medium max-w-2xl mx-auto leading-relaxed mb-12 opacity-90">
-            We’ve unified the clinical precision of enterprise ERP with the deep, wordless tranquility of a world-class spa. It’s not just management software; it’s the evolution of wellness.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
-            <button className="px-8 py-4 bg-white text-[#020406] rounded-xl font-black text-base hover:bg-[#207D40] hover:text-white transition-all duration-700 shadow-2xl active:scale-95 group">
-              See the Future
-              <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform" />
-            </button>
-            <div className="text-left border-l border-white/20 pl-6">
-              <div className="flex items-center gap-2 mb-1">
-                <Sparkles size={12} className="text-[#F7A300]" />
-                <span className="text-white font-black text-[11px] tracking-tight leading-none uppercase">Next-Gen Delivery</span>
-              </div>
-              <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.4em]">Optimizing 1,200+ Luxury Venues</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <InnovationSection />
       <CTASection />
     </>
   );
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA] text-[#111827] overflow-x-hidden">
+    <div className="min-h-screen bg-[#FDFAF6] text-[#0d1f0d] overflow-x-hidden">
       <Navbar onNavigate={navigate} currentPage={currentPage} />
       <main>
         {currentPage === 'home' && renderHome()}
@@ -104,43 +305,6 @@ const App: React.FC = () => {
         {currentPage === 'contact' && <ContactPage />}
       </main>
       <Footer onNavigate={navigate} />
-
-      <style>{`
-        @keyframes breathing-scale {
-          0%, 100% { transform: scale(1.02); }
-          50% { transform: scale(1.08); }
-        }
-        .animate-breathing-scale {
-          animation: breathing-scale 30s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 200% 50%; }
-        }
-        .animate-shimmer {
-          animation: shimmer 6s linear infinite;
-        }
-        @keyframes light-sweep {
-          0% { left: -100%; opacity: 0; }
-          10% { opacity: 1; }
-          40% { opacity: 1; }
-          50% { left: 100%; opacity: 0; }
-          100% { left: 100%; opacity: 0; }
-        }
-        .animate-light-sweep {
-          animation: light-sweep 15s ease-in-out infinite;
-        }
-        @keyframes light-sweep-delayed {
-          0% { right: -100%; opacity: 0; }
-          50% { right: -100%; opacity: 0; }
-          60% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { right: 100%; opacity: 0; }
-        }
-        .animate-light-sweep-delayed {
-          animation: light-sweep-delayed 18s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };

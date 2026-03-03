@@ -92,7 +92,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                <div className="relative h-full">
                   <div className="relative rounded-[2rem] overflow-hidden shadow-xl">
                     <img 
-                      src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" 
+                      src="/images/DSC06623.jpg" 
                       alt="Modern Office Hallway" 
                       className="w-full h-[450px] object-cover block"
                     />

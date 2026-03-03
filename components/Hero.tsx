@@ -1,81 +1,213 @@
-import React from 'react';
-import { Play, ShieldCheck, Star, TrendingUp } from 'lucide-react';
+"use client"
+
+import React, { useEffect, useRef } from 'react'
+import { Play, ShieldCheck, Star, TrendingUp, Sparkles, Users } from 'lucide-react'
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+
+const fadeUp: import('framer-motion').Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.12, duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  }),
+}
 
 const Hero: React.FC = () => {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const springX = useSpring(mouseX, { stiffness: 80, damping: 20 })
+  const springY = useSpring(mouseY, { stiffness: 80, damping: 20 })
+  const rotateX = useTransform(springY, [-0.5, 0.5], ['6deg', '-6deg'])
+  const rotateY = useTransform(springX, [-0.5, 0.5], ['-6deg', '6deg'])
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
+  }
+
+  const handleMouseLeave = () => {
+    mouseX.set(0)
+    mouseY.set(0)
+  }
+
   return (
-    <section className="relative pt-32 pb-20 lg:pt-56 lg:pb-40 overflow-hidden bg-white">
-      {/* Background Gradients */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[#f8fafc]"></div>
-        <div className="absolute -top-24 -right-24 w-[500px] h-[500px] bg-[#207D40]/5 rounded-full blur-[120px]"></div>
-        <div className="absolute top-1/2 -left-24 w-[400px] h-[400px] bg-[#F7A300]/5 rounded-full blur-[100px]"></div>
+    <section className="relative min-h-screen bg-[#FDFAF6] overflow-hidden flex items-center">
+
+      {/* ── Decorative background ── */}
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full opacity-30"
+          style={{
+            background: 'radial-gradient(circle at 60% 40%, #A8C5A0 0%, #C9DFC5 40%, transparent 70%)',
+            filter: 'blur(80px)',
+          }}
+        />
+        <div
+          className="absolute -bottom-20 -left-20 w-[500px] h-[500px] rounded-full opacity-25"
+          style={{
+            background: 'radial-gradient(circle at 40% 60%, #F5C97A 0%, #F9E4B0 50%, transparent 70%)',
+            filter: 'blur(70px)',
+          }}
+        />
+        <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.5" fill="#1a2e1a" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots)" />
+        </svg>
+        <div
+          className="absolute top-0 right-[38%] w-px h-full opacity-10"
+          style={{ background: 'linear-gradient(180deg, transparent, #207D40 40%, transparent)' }}
+        />
       </div>
 
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-          <div className="lg:w-1/2 text-center lg:text-left z-10">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-[#111827] leading-[1.1] mb-8 tracking-tighter">
-              Simplify Spa Operations. <br /> 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#207D40] to-[#F7A300]">Grow with Confidence.</span> 
-            </h1>
-            
-            <p className="text-sm md:text-base text-gray-500 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
-              My Spa Management System is a cloud-based Spa ERP designed exclusively for spas — helping owners digitize operations, gain real-time visibility, and scale with confidence from anywhere.
-            </p>
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-24 lg:py-0 w-full">
+        <div className="grid lg:grid-cols-[1fr_1.15fr] gap-14 xl:gap-20 items-center">
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <button className="w-full sm:w-auto bg-[#207D40] hover:bg-[#1a6333] text-white px-8 py-4 rounded-xl font-bold text-base shadow-xl shadow-[#207D40]/10 transition-all active:scale-95">
-                Start Free Trial
-              </button>
-              <button className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white border-2 border-gray-100 text-gray-800 hover:bg-gray-50 px-8 py-4 rounded-xl font-bold text-base transition-all hover:border-[#F7A300] group">
-                <div className="w-6 h-6 bg-orange-50 rounded-full flex items-center justify-center text-[#F7A300] group-hover:bg-[#F7A300] group-hover:text-white transition-colors">
-                  <Play size={12} fill="currentColor" className="ml-0.5" />
-                </div>
+          {/* ─────────── LEFT COLUMN ─────────── */}
+          <div className="flex flex-col items-start">
+
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} className="mb-7 flex items-center gap-2 bg-white border border-[#D4EAD0] px-4 py-2 rounded-full shadow-sm">
+              <Sparkles size={12} className="text-[#207D40]" />
+              <span className="text-[11px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#207D40', fontFamily: '"DM Sans", sans-serif' }}>
+                My Spa ERP
+              </span>
+            </motion.div>
+
+            <motion.h1 variants={fadeUp} initial="hidden" animate="visible" custom={1} style={{ fontFamily: '"Playfair Display", Georgia, serif' }} className="text-[2.85rem] lg:text-[3.6rem] xl:text-[4.2rem] 2xl:text-[4.4rem] font-bold text-[#0d1f0d] leading-[1.08] tracking-[-0.02em] mb-6">
+              Simplify Spa<br />
+              Operations.<br />
+              <em className="not-italic" style={{ background: 'linear-gradient(100deg, #207D40 10%, #F7A300 80%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Grow with Confidence.
+              </em>
+            </motion.h1>
+
+            <motion.p variants={fadeUp} initial="hidden" animate="visible" custom={2} style={{ fontFamily: '"DM Sans", sans-serif' }} className="text-[#5a6e5a] text-[1rem] leading-[1.75] max-w-[450px] mb-10">
+              My Spa Management System is designed exclusively for spas — helping owners digitize operations, gain real-time visibility, and scale with confidence from anywhere.
+            </motion.p>
+
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3} className="flex flex-col sm:flex-row items-start gap-3 mb-10">
+              <motion.button
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                className="relative overflow-hidden text-white text-sm font-semibold px-8 py-3.5 rounded-xl shadow-lg"
+                style={{
+                  background: 'linear-gradient(135deg, #207D40 0%, #165c2e 100%)',
+                  fontFamily: '"DM Sans", sans-serif',
+                  boxShadow: '0 10px 30px rgba(32, 125, 64, 0.30)',
+                }}
+              >
+                <span className="relative z-10">Start Free Trial →</span>
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                className="flex items-center gap-2.5 bg-white border border-[#e2e8e2] text-[#0d1f0d] text-sm font-semibold px-7 py-3.5 rounded-xl shadow-sm"
+                style={{ fontFamily: '"DM Sans", sans-serif' }}
+              >
+                <span className="flex items-center justify-center w-6 h-6 rounded-full" style={{ background: '#207D40' }}>
+                  <Play size={9} fill="white" color="white" />
+                </span>
                 Book a Demo
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
-            {/* Social Proof Mini */}
-            <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-8 opacity-50 transition-all duration-500">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="text-[#207D40]" size={18} />
-                <span className="text-[11px] font-black text-gray-700 uppercase tracking-widest">PCI Compliant</span>
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4} className="flex items-center gap-6">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck size={14} className="text-[#207D40]" />
+                <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#6b8a6b]" style={{ fontFamily: '"DM Sans", sans-serif' }}>
+                  PCI Compliant
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Star className="text-[#F7A300]" fill="currentColor" size={18} />
-                <span className="text-[11px] font-black text-gray-700 uppercase tracking-widest">4.9/5 Rating</span>
+              <div className="w-px h-4 bg-[#d4e8d4]" />
+              <div className="flex items-center gap-1.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={12} fill="#F7A300" color="#F7A300" />
+                ))}
+                <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#6b8a6b] ml-1" style={{ fontFamily: '"DM Sans", sans-serif' }}>
+                  4.9 / 5
+                </span>
               </div>
-            </div>
+              <div className="w-px h-4 bg-[#d4e8d4]" />
+              <div className="flex items-center gap-1.5">
+                <Users size={13} className="text-[#207D40]" />
+                <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#6b8a6b]" style={{ fontFamily: '"DM Sans", sans-serif' }}>
+                  2,400+ Spas
+                </span>
+              </div>
+            </motion.div>
           </div>
 
-          <div className="lg:w-1/2 relative">
-            <div className="relative z-10 p-1 bg-white/40 backdrop-blur-md rounded-[2.5rem] shadow-2xl border border-white/60">
-              <div className="relative bg-white rounded-[2rem] overflow-hidden shadow-inner border border-gray-50">
-                <img 
-                  src="/images/photo-1551288049-bebda4e38f71.jpeg" 
-                  alt="MySpa Platform Interface" 
-                  className="w-full h-auto block"
-                />
-              </div>
+          {/* ─────────── RIGHT COLUMN ─────────── */}
+          <motion.div ref={cardRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }} className="relative flex justify-center lg:justify-end" style={{ perspective: '1000px' }}>
+            
+            <div className="absolute inset-0 m-auto w-[85%] h-[85%] rounded-[2.5rem] opacity-40 blur-[60px]" style={{ background: 'radial-gradient(circle, #A8C5A0, transparent 70%)' }} />
 
-              {/* Floating UI Elements */}
-              <div className="absolute -top-4 -left-4 bg-white p-4 rounded-2xl shadow-xl border border-gray-50 hidden md:block">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-[#207D40] rounded-lg flex items-center justify-center text-white">
-                    <TrendingUp size={14} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Growth</p>
-                    <p className="text-base font-black text-[#111827] leading-none">+24%</p>
-                  </div>
+            <motion.div style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }} className="relative">
+              <div className="relative rounded-[2rem] overflow-visible" style={{ background: 'linear-gradient(145deg, rgba(255,255,255,0.85), rgba(245,252,245,0.7))', backdropFilter: 'blur(16px)', boxShadow: '0 40px 80px rgba(13,31,13,0.10), 0 0 0 1px rgba(255,255,255,0.6) inset', padding: '14px' }}>
+                <div className="rounded-[1.6rem] overflow-hidden border border-white/60">
+                  <img src="/images/photo-1551288049-bebda4e38f71.jpeg" alt="Spa Dashboard Analytics" className="w-[480px] lg:w-[560px] xl:w-[620px] h-auto block" />
                 </div>
+                <div className="absolute inset-0 rounded-[2rem] pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 50%)' }} />
               </div>
-            </div>
-          </div>
+
+              {/* Revenue Badge */}
+              <motion.div initial={{ opacity: 0, y: -12, scale: 0.85 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.75, duration: 0.5, ease: 'backOut' }} className="absolute -top-5 -left-8 bg-white rounded-2xl px-4 py-3 flex items-center gap-3" style={{ boxShadow: '0 16px 48px rgba(13,31,13,0.12), 0 0 0 1px rgba(32,125,64,0.08)' }}>
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white flex-shrink-0" style={{ background: 'linear-gradient(135deg, #207D40, #165c2e)' }}>
+                  <TrendingUp size={16} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold tracking-[0.14em] uppercase text-gray-400 mb-0.5" style={{ fontFamily: '"DM Sans", sans-serif' }}>Revenue Growth</p>
+                  <p className="text-xl font-bold text-[#207D40] leading-none" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>+24.5%</p>
+                </div>
+              </motion.div>
+
+              {/* Bookings Badge */}
+              <motion.div initial={{ opacity: 0, y: 12, scale: 0.85 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.9, duration: 0.5, ease: 'backOut' }} className="absolute -bottom-5 -right-6 bg-white rounded-2xl px-4 py-3 flex items-center gap-3" style={{ boxShadow: '0 16px 48px rgba(13,31,13,0.12), 0 0 0 1px rgba(247,163,0,0.08)' }}>
+                <div className="flex -space-x-2">
+                  {['#A8C5A0', '#F7A300', '#207D40'].map((c, i) => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white flex-shrink-0" style={{ background: c, zIndex: 3 - i }} />
+                  ))}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[#0d1f0d] leading-none" style={{ fontFamily: '"DM Sans", sans-serif' }}>5 New Bookings</p>
+                  <p className="text-[11px] font-semibold mt-1" style={{ color: '#207D40', fontFamily: '"DM Sans", sans-serif' }}>Just now</p>
+                </div>
+              </motion.div>
+
+              {/* Live Pulse */}
+              <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.05, duration: 0.4, ease: 'backOut' }} className="absolute top-4 right-4 flex items-center gap-2 bg-white/90 backdrop-blur rounded-full px-3 py-1.5" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.08)', fontFamily: '"DM Sans", sans-serif' }}>
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#207D40' }} />
+                  <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: '#207D40' }} />
+                </span>
+                <span className="text-[10px] font-semibold text-[#0d1f0d] tracking-wide uppercase">Live</span>
+              </motion.div>
+
+            </motion.div>
+          </motion.div>
+
         </div>
       </div>
-    </section>
-  );
-};
 
-export default Hero;
+      {/* ── Bottom wave / section divider ── */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+        <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" className="w-full opacity-40">
+          <path d="M0 40 C360 0 1080 80 1440 20 L1440 60 L0 60 Z" fill="#D4EAD0" />
+        </svg>
+      </div>
+
+    </section>
+  )
+}
+
+export default Hero

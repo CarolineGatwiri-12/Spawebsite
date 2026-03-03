@@ -1,54 +1,248 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Play, Clock, TrendingUp, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const perks = [
+  { icon: Clock,      text: 'Save 15+ hours per week' },
+  { icon: TrendingUp, text: '+31% avg. revenue in 90 days' },
+  { icon: Zap,        text: 'Full setup in under 4 minutes' },
+];
 
 const CTASection: React.FC = () => {
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="bg-[#F7A300] rounded-[2.5rem] p-8 md:p-16 text-white relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-white/10 to-transparent"></div>
+    <section className="py-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
-          <div className="flex flex-col lg:flex-row items-center gap-12 relative z-10">
-            <div className="lg:w-1/2 text-center lg:text-left lg:pl-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.3em] mb-6">
-                Ready to Scale?
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+          className="relative rounded-[2.5rem] overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, #207D40 0%, #185e30 50%, #0f4020 100%)',
+            boxShadow: '0 40px 100px rgba(32,125,64,0.25), 0 0 0 1px rgba(32,125,64,0.3)',
+          }}
+        >
+          {/* ── Decorative blobs ── */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div
+              className="absolute -top-20 -right-20 w-[520px] h-[520px] rounded-full opacity-25"
+              style={{ background: 'radial-gradient(circle, #F7A300, transparent 65%)', filter: 'blur(70px)' }}
+            />
+            <div
+              className="absolute -bottom-16 -left-16 w-[320px] h-[320px] rounded-full opacity-15"
+              style={{ background: 'radial-gradient(circle, #F7A300, transparent 65%)', filter: 'blur(60px)' }}
+            />
+            <svg className="absolute inset-0 w-full h-full opacity-[0.05]">
+              <defs>
+                <pattern id="cta-grid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.4" fill="white" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#cta-grid)" />
+            </svg>
+          </div>
+
+          {/* ── Two-column grid ── */}
+          <div className="relative z-10 grid lg:grid-cols-[1fr_420px] items-stretch">
+
+            {/* ── LEFT: copy ── */}
+            <div className="p-10 md:p-14 lg:p-16 flex flex-col justify-center">
+
+              {/* Eyebrow */}
+              <div
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full w-fit text-[10px] font-bold uppercase tracking-[0.2em] mb-7"
+                style={{
+                  background: 'rgba(247,163,0,0.2)',
+                  border: '1px solid rgba(247,163,0,0.4)',
+                  color: '#F7A300',
+                  fontFamily: '"DM Sans", sans-serif',
+                }}
+              >
+                <Zap size={9} fill="#F7A300" color="#F7A300" /> Ready to Scale?
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-8 tracking-tighter leading-tight max-w-sm mx-auto lg:mx-0">
-                Transform Your <br /> Business Today
+
+              {/* Headline */}
+              <h2
+                className="text-4xl md:text-5xl lg:text-[3.2rem] font-bold leading-[1.08] tracking-[-0.025em] text-white mb-5"
+                style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+              >
+                Transform Your <br />
+                <span style={{ color: '#F7A300' }}>Business Today.</span>
               </h2>
-              <p className="text-sm md:text-base text-white/90 mb-10 max-w-sm mx-auto lg:mx-0 font-medium leading-relaxed">
-                Experience the ultimate ERP solution tailored specifically for
-                high-end wellness. See how we save our partners an average of 15
-                hours per week on operations.
+
+              <p
+                className="text-base leading-[1.75] mb-8 max-w-md"
+                style={{ color: 'rgba(255,255,255,0.6)', fontFamily: '"DM Sans", sans-serif' }}
+              >
+                The ultimate ERP solution tailored for high-end wellness. Join 2,400+ spa owners already saving time and growing revenue.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                <button className="w-full sm:w-auto bg-[#207D40] hover:bg-[#111827] text-white px-8 py-4 rounded-xl font-black text-base transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2 group">
-                  Request a Demo
-                  <ArrowRight
-                    size={18}
-                    className="group-hover:translate-x-1.5 transition-transform"
-                  />
-                </button>
-                <button className="text-xs font-bold border-b border-white/30 cursor-pointer hover:border-white transition-all py-1">
-                  Talk to an expert
-                </button>
+              {/* Perks */}
+              <div className="flex flex-col gap-3 mb-10">
+                {perks.map((perk, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -14 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.15 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+                    className="flex items-center gap-3"
+                  >
+                    <div
+                      className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(247,163,0,0.18)', border: '1px solid rgba(247,163,0,0.3)' }}
+                    >
+                      <perk.icon size={13} color="#F7A300" strokeWidth={1.8} />
+                    </div>
+                    <span
+                      className="text-sm font-medium"
+                      style={{ color: 'rgba(255,255,255,0.75)', fontFamily: '"DM Sans", sans-serif' }}
+                    >
+                      {perk.text}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold group"
+                  style={{
+                    background: '#F7A300',
+                    color: '#207D40',
+                    fontWeight: 700,
+                    boxShadow: '0 10px 30px rgba(247,163,0,0.4)',
+                    fontFamily: '"DM Sans", sans-serif',
+                  }}
+                >
+                  Start Free Trial
+                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  className="flex items-center gap-2.5 text-sm font-semibold"
+                  style={{ color: 'rgba(255,255,255,0.65)', fontFamily: '"DM Sans", sans-serif' }}
+                >
+                  <span
+                    className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}
+                  >
+                    <Play size={9} fill="white" color="white" />
+                  </span>
+                  Book a demo
+                </motion.button>
               </div>
             </div>
 
-            <div className="lg:w-1/2 flex justify-center lg:justify-end">
-              <div className="relative group w-full max-w-xs lg:max-w-md">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10">
-                  <img
-                    src="\images\cta3.jpeg"
-                    alt="MySpa Analytics Preview"
-                    className="w-[140%] h-[140%] object-cover transform group-hover:scale-105 transition-transform duration-700 block"
-                  />
+            {/* ── RIGHT: image panel ── */}
+            <div
+              className="relative hidden lg:block min-h-[480px]"
+              style={{ borderLeft: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              {/* Photo */}
+              <img
+                src="/images/cta3.jpeg"
+                alt="MySpa Analytics Preview"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+
+              {/* Overlays: left fade into green card + amber tint */}
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(90deg, #185e30 0%, transparent 35%)' }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(180deg, rgba(15,64,32,0.4) 0%, transparent 40%, rgba(15,64,32,0.6) 100%)' }}
+              />
+              {/* Subtle amber tint top-right */}
+              <div
+                className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-20 pointer-events-none"
+                style={{ background: 'radial-gradient(circle, #F7A300, transparent 70%)', filter: 'blur(40px)' }}
+              />
+
+              {/* Floating stat badge — top */}
+              <motion.div
+                initial={{ opacity: 0, y: -12, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.45, duration: 0.5, ease: 'backOut' }}
+                className="absolute top-8 right-6 p-4 rounded-2xl"
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(247,163,0,0.3)',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.2)',
+                }}
+              >
+                <p
+                  className="text-[10px] font-bold uppercase tracking-[0.14em] mb-1.5"
+                  style={{ color: 'rgba(255,255,255,0.45)', fontFamily: '"DM Sans", sans-serif' }}
+                >
+                  Revenue Uplift
+                </p>
+                <p
+                  className="text-3xl font-bold leading-none text-white"
+                  style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+                >
+                  +31<span style={{ color: '#F7A300' }}>%</span>
+                </p>
+                <p
+                  className="text-[10px] mt-1.5 font-medium"
+                  style={{ color: 'rgba(255,255,255,0.35)', fontFamily: '"DM Sans", sans-serif' }}
+                >
+                  in first 90 days
+                </p>
+              </motion.div>
+
+              {/* Floating booking badge — bottom */}
+              <motion.div
+                initial={{ opacity: 0, y: 12, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6, duration: 0.5, ease: 'backOut' }}
+                className="absolute bottom-8 left-6 right-6 p-4 rounded-2xl flex items-center gap-4"
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.2)',
+                }}
+              >
+                <div className="flex -space-x-2">
+                  {['#A8C5A0', '#F7A300', '#207D40'].map((c, i) => (
+                    <div
+                      key={i}
+                      className="w-8 h-8 rounded-full border-2 flex-shrink-0"
+                      style={{ background: c, borderColor: '#185e30', zIndex: 3 - i }}
+                    />
+                  ))}
                 </div>
-              </div>
+                <div>
+                  <p
+                    className="text-sm font-bold text-white leading-none"
+                    style={{ fontFamily: '"DM Sans", sans-serif' }}
+                  >
+                    2,400+ Spa Owners
+                  </p>
+                  <p
+                    className="text-[11px] font-semibold mt-1"
+                    style={{ color: '#F7A300', fontFamily: '"DM Sans", sans-serif' }}
+                  >
+                    already scaling with MySpa
+                  </p>
+                </div>
+              </motion.div>
             </div>
+
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

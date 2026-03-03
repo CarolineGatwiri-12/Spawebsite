@@ -1,88 +1,294 @@
-import React from 'react';
-import { Rocket, Headphones, Heart, Sparkles } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Rocket, Headphones, Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+
+const partners = [
+  {
+    title: "Uplift You",
+    description:
+      "A spa software platform built to grow with you and help you scale effortlessly in a competitive market.",
+    icon: Rocket,
+    number: "01",
+    accent: "#267546",
+    accentLight: "#267546",
+    tag: "Growth Engine",
+  },
+  {
+    title: "24/7 Support",
+    description:
+      "Get elite assistance anytime, anywhere. Our dedicated team is always on standby for your peace of mind.",
+    icon: Headphones,
+    number: "02",
+    accent: "#FFA912",
+    accentLight: "#FFA912",
+    tag: "Always On",
+    featured: true,
+  },
+  {
+    title: "Personalized Experience",
+    description:
+      "Easy ways to create the bespoke, personalized experience your high-end guests truly deserve.",
+    icon: Heart,
+    number: "03",
+    accent: "#267546",
+    accentLight: "#267546",
+    tag: "Bespoke",
+  },
+];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+};
 
 const PartnerSection: React.FC = () => {
-  const partners = [
-    {
-      title: "Uplift You",
-      description: "A spa software platform built to grow with you and help you scale effortlessly in a competitive market.",
-      icon: Rocket,
-      color: "from-green-400 to-[#207D40]",
-      bg: "bg-[#207D40]",
-    },
-    {
-      title: "24/7 Support",
-      description: "Get elite assistance anytime, anywhere. Our dedicated team is always on standby for your peace of mind.",
-      icon: Headphones,
-      color: "from-[#F7A300]/60 to-[#F7A300]",
-      bg: "bg-[#F7A300]",
-    },
-    {
-      title: "Personalized Experience",
-      description: "Easy ways to create the bespoke, personalized experience your high-end guests truly deserve.",
-      icon: Heart,
-      color: "from-red-400 to-[#EF4444]",
-      bg: "bg-red-500",
-    }
-  ];
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   return (
-    <section className="relative py-24 bg-white overflow-hidden">
-      {/* Abstract Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"></div>
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-green-100/40 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-orange-100/40 rounded-full blur-[120px]"></div>
+    <section
+      ref={sectionRef}
+      className="relative py-28 overflow-hidden"
+      style={{ background: '#0d1f0d' }}
+    >
+      {/* ── Background texture & glows ── */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* Subtle noise grain */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.035]">
+          <filter id="noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#noise)" />
+        </svg>
+
+        {/* Green glow left */}
+        <div
+          className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full opacity-20"
+          style={{
+            background: 'radial-gradient(circle, #2E8B35, transparent 65%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        {/* Amber glow right */}
+        <div
+          className="absolute -bottom-20 right-0 w-[500px] h-[500px] rounded-full opacity-15"
+          style={{
+            background: 'radial-gradient(circle, #F5A800, transparent 65%)',
+            filter: 'blur(80px)',
+          }}
+        />
+
+        {/* Horizontal rule */}
+        <div
+          className="absolute top-0 left-0 right-0 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.06) 60%, transparent)' }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.06) 60%, transparent)' }}
+        />
+
+        {/* Large serif watermark */}
+        <div
+          className="absolute right-[-2rem] top-1/2 -translate-y-1/2 select-none opacity-[0.025] text-white leading-none"
+          style={{
+            fontFamily: '"Playfair Display", Georgia, serif',
+            fontSize: 'clamp(140px, 20vw, 280px)',
+            fontWeight: 900,
+            letterSpacing: '-0.04em',
+          }}
+        >
+         MY SPA
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <div className="text-center mb-16 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-900 text-white text-[10px] font-black uppercase mb-6 tracking-[0.3em] shadow-xl">
-            <Sparkles size={10} className="text-[#207D40]" /> Trusted Excellence
-          </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#111827] mb-8 tracking-tighter leading-tight">
-            The Spa Software Partner <br /> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#207D40] to-[#F7A300] bg-[length:200%_auto] animate-gradient-x">
-              You Have Been Looking For
-            </span>
-          </h2>
-          <p className="text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto leading-relaxed">
-            Elevate your spa to new heights with a partner that blends technological perfection with deep industry empathy.
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {partners.map((item, idx) => (
-            <div 
-              key={idx} 
-              className="group relative p-8 rounded-[2rem] bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-700 hover:-translate-y-2 overflow-hidden"
+      <div className="relative max-w-8xl mx-auto px-6 lg:px-10">
+        {/* ── Section header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+          className="mb-20 max-w-4xl mx-auto"
+        >
+          {/* Eyebrow */}
+          <div className="flex items-center gap-3 mb-6">
+            <div
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-[0.2em]"
+              style={{
+                borderColor: 'rgba(32,125,64,0.4)',
+                background: 'rgba(32,125,64,0.1)',
+                color: '#A8C5A0',
+                fontFamily: '"DM Sans", sans-serif',
+              }}
             >
-              <div className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-10 transition-opacity duration-700 ${item.bg}`}></div>
-              
-              <div className="relative z-10">
-                <div className="relative w-16 h-16 mb-8 flex items-center justify-center rounded-2xl bg-white shadow-md group-hover:scale-105 transition-transform duration-500">
-                  <div className={`absolute inset-0 rounded-2xl opacity-5 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${item.color} blur-md`}></div>
-                  <div className={`relative z-10 p-4 rounded-xl bg-gradient-to-br ${item.color} text-white shadow-sm`}>
-                    <item.icon size={24} strokeWidth={1.5} />
+              <Sparkles size={9} />
+              Trusted Excellence
+            </div>
+          </div>
+
+          {/* Headline */}
+          <h2
+            className="text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-[1.1] tracking-[-0.025em] text-white mb-6"
+            style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+          >
+            The Spa Software Partner{' '}
+            <br />
+            <em
+              className="not-italic"
+              style={{
+                background: 'linear-gradient(100deg, #A8C5A0 10%, #F5A800 80%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              You've Been Looking For
+            </em>
+          </h2>
+
+          <p
+            className="text-[#7a9a7a] text-base leading-relaxed"
+            style={{ fontFamily: '"DM Sans", sans-serif' }}
+          >
+            Elevate your spa to new heights with a partner that blends technological
+            perfection with deep industry empathy.
+          </p>
+        </motion.div>
+
+        {/* ── Cards grid ── */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="grid lg:grid-cols-3 gap-5"
+        >
+          {partners.map((item) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.number}
+                variants={cardVariants}
+                whileHover={{ y: -8, transition: { type: 'spring', stiffness: 200, damping: 18 } }}
+                className="group relative rounded-[1.75rem] overflow-hidden cursor-pointer"
+                style={{
+                  background: item.featured
+                    ? `linear-gradient(145deg, #1a3320, #112518)`
+                    : 'rgba(255,255,255,0.03)',
+                  border: item.featured
+                    ? `1px solid rgba(247,163,0,0.2)`
+                    : '1px solid rgba(255,255,255,0.06)',
+                  boxShadow: item.featured
+                    ? '0 0 0 1px rgba(247,163,0,0.08), 0 30px 60px rgba(0,0,0,0.4)'
+                    : '0 20px 40px rgba(0,0,0,0.3)',
+                }}
+              >
+                {/* Card glow on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{
+                    background: `radial-gradient(circle at 30% 20%, ${item.accent}18, transparent 60%)`,
+                  }}
+                />
+
+                {/* Featured top accent bar */}
+                {item.featured && (
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[2px]"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${item.accent}, transparent)`,
+                    }}
+                  />
+                )}
+
+                <div className="relative z-10 p-8 flex flex-col h-full">
+                  {/* Top row: number + tag */}
+                  <div className="flex items-center justify-between mb-8">
+                    <span
+                      className="text-[11px] font-bold tracking-[0.2em] uppercase"
+                      style={{
+                        color: item.accent,
+                        fontFamily: '"DM Sans", sans-serif',
+                        opacity: 0.8,
+                      }}
+                    >
+                      {item.number}
+                    </span>
+                    <span
+                      className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
+                      style={{
+                        background: `${item.accent}18`,
+                        color: item.accentLight,
+                        fontFamily: '"DM Sans", sans-serif',
+                        border: `1px solid ${item.accent}30`,
+                      }}
+                    >
+                      {item.tag}
+                    </span>
+                  </div>
+
+                  {/* Icon */}
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-7 transition-transform duration-500 group-hover:scale-110"
+                    style={{
+                      background: `linear-gradient(135deg, ${item.accent}30, ${item.accent}10)`,
+                      border: `1px solid ${item.accent}30`,
+                    }}
+                  >
+                    <Icon size={22} color={item.accentLight} strokeWidth={1.8} />
+                  </div>
+
+                  {/* Content */}
+                  <h3
+                    className="text-2xl font-bold text-white mb-4 leading-tight tracking-tight"
+                    style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p
+                    className="text-[#6a8a6a] text-sm leading-relaxed mb-8 flex-1"
+                    style={{ fontFamily: '"DM Sans", sans-serif' }}
+                  >
+                    {item.description}
+                  </p>
+
+                  {/* CTA link */}
+                  <div
+                    className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300"
+                    style={{
+                      color: item.featured ? item.accent : 'rgba(255,255,255,0.2)',
+                      fontFamily: '"DM Sans", sans-serif',
+                    }}
+                  >
+                    <ArrowRight
+                      size={12}
+                      className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300"
+                      style={{ color: item.accentLight }}
+                    />
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-black text-[#111827] mb-4 tracking-tight group-hover:text-[#207D40] transition-colors">
-                  {item.title}
-                </h3>
-                
-                <p className="text-gray-500 text-sm leading-relaxed font-medium mb-6">
-                  {item.description}
-                </p>
-
-                <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-400 group-hover:text-[#207D40] transition-colors">
-                  Learn More 
-                  <span className="w-6 h-px bg-gray-200 group-hover:w-10 group-hover:bg-[#207D40] transition-all"></span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                {/* Bottom decorative arc */}
+                <div
+                  className="absolute -bottom-16 -right-16 w-40 h-40 rounded-full opacity-0 group-hover:opacity-5 transition-opacity duration-700"
+                  style={{ background: item.accent }}
+                />
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );

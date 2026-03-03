@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Calendar, CreditCard, Globe, Package, MessageSquare, UserCheck, 
-  Sparkles, Receipt, MapPin
+  Sparkles, Receipt, MapPin, Settings
 } from 'lucide-react';
 
 const featureGroups = [
@@ -18,7 +18,7 @@ const featureGroups = [
     title: "Customer Experience & Sales Growth",
     description: "Foster lasting relationships.",
     items: [
-      { name: 'Clients (CRM)', icon: Globe, color: 'text-[#F7A300]', bg: 'bg-[#F7A300]/5' },
+      { name: 'CRM', icon: Globe, color: 'text-[#F7A300]', bg: 'bg-[#F7A300]/5' },
       { name: 'Gift / Vouchers', icon: Package, color: 'text-[#207D40]', bg: 'bg-[#207D40]/5' },
     ]
   },
@@ -26,8 +26,9 @@ const featureGroups = [
     title: "Operational & Workforce Management",
     description: "Maximize your bottom line.",
     items: [
-      { name: 'HR Control', icon: UserCheck, color: 'text-[#207D40]', bg: 'bg-[#207D40]/5' },
+      { name: 'HR Management', icon: UserCheck, color: 'text-[#207D40]', bg: 'bg-[#207D40]/5' },
       { name: 'Inventory', icon: MessageSquare, color: 'text-[#F7A300]', bg: 'bg-[#F7A300]/5' },
+       { name: 'Settings', icon: Settings, color: 'text-[#F7A300]', bg: 'bg-[#F7A300]/5' },
     ]
   }
 ];
