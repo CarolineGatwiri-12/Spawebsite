@@ -36,7 +36,7 @@ const InnovationSection: React.FC = () => {
       {/* ── Background image with green tint ── */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=2070&auto=format&fit=crop"
+          src="/images/DSC06620.jpg"
           alt="Luxury Spa Architecture"
           className="w-full h-full object-cover"
           style={{ opacity: 0.18, mixBlendMode: 'luminosity', animation: 'breathe 28s ease-in-out infinite' }}

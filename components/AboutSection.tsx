@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const modules = [
   { name: "Dashboard", desc: "Your spa's command center with real-time revenue and analytics.", icon: BarChart3, accent: "#2E8B35" },
-  { name: "Clients", desc: "Comprehensive CRM with profiles, history, and loyalty programs.", icon: Users, accent: "#F5A800" },
+  { name: "CRM", desc: "Comprehensive CRM with profiles, history, and loyalty programs.", icon: Users, accent: "#F5A800" },
   { name: "Orders & Invoices", desc: "Automated billing and payment integration.", icon: Receipt, accent: "#2E8B35" },
   { name: "Accounting", desc: "Integrated financial tools to track expenses.", icon: Wallet, accent: "#F5A800" },
   { name: "Gift / Vouchers", desc: "Customizable gift cards and vouchers.", icon: Gift, accent: "#2E8B35" },

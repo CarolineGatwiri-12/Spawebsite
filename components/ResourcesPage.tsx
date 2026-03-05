@@ -15,7 +15,7 @@ const blogPosts = [
     category: 'ERP',
     title: 'Spa ERP vs Booking Software: What’s the Difference?',
     preview: 'Understand why professional management requires more than just a calendar. Learn how ERP logic transforms back-of-house operations.',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     date: 'Oct 12, 2024',
     readTime: '8 min read'
   },
@@ -24,7 +24,7 @@ const blogPosts = [
     category: 'Operations',
     title: 'How to Reduce No-Shows in Your Spa',
     preview: 'Practical systems and automated workflows that ensure your therapists remain productive and your schedule stays full.',
-    image: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=2070&auto=format&fit=crop',
+    image: 'https://media.istockphoto.com/id/1388628687/photo/woman-at-the-spa-getting-a-rejuvenation-treatment-on-her-face.jpg?s=612x612&w=0&k=20&c=fh7l3oMeJ3ObFltVw_ErEMO_4jlQN6eIoYB5Ui2_DsY=',
     date: 'Oct 08, 2024',
     readTime: '6 min read'
   },
@@ -33,7 +33,7 @@ const blogPosts = [
     category: 'Inventory',
     title: 'Inventory Management Best Practices for Spas',
     preview: 'Eliminate waste and optimize retail sales with precision tracking. See how professional inventory modules prevent stock-outs.',
-    image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=80&w=2070&auto=format&fit=crop',
+    image: 'https://plus.unsplash.com/premium_photo-1675744019226-469d159d1bf0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     date: 'Sep 28, 2024',
     readTime: '10 min read'
   },
@@ -42,27 +42,27 @@ const blogPosts = [
     category: 'Growth',
     title: 'How ERP Helps Multi-Branch Spas Scale',
     preview: 'Scaling shouldn’t mean complexity. Explore how unified systems allow owners to manage 10+ locations from a single dashboard.',
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069&auto=format&fit=crop',
+    image: '/images/DSC06640.jpg',
     date: 'Sep 15, 2024',
     readTime: '12 min read'
   },
   {
     id: 5,
-    category: 'Case Studies',
-    title: 'Case Study: How ERP Increased Spa Revenue by 40%',
-    preview: 'A detailed walkthrough of how Zenith Wellness migrated to MySpa and optimized their resource allocation for massive growth.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop',
-    date: 'Sep 10, 2024',
-    readTime: '15 min read'
+     category: 'Growth',
+    title: '5 Metrics Every Spa Owner Should Monitor Daily',
+    preview: 'Move beyond total revenue. Discover the critical performance indicators that signal real business health and sustainability.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=cro',
+    date: 'Aug 25, 2024',
+    readTime: '7 min read'
   },
   {
     id: 6,
-    category: 'Growth',
-    title: '5 Metrics Every Spa Owner Should Monitor Daily',
-    preview: 'Move beyond total revenue. Discover the critical performance indicators that signal real business health and sustainability.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
-    date: 'Aug 25, 2024',
-    readTime: '7 min read'
+   category: 'Case Studies',
+    title: 'Case Study: How ERP Increased Spa Revenue by 40%',
+    preview: 'A detailed walkthrough of how Zenith Wellness migrated to MySpa and optimized their resource allocation for massive growth.',
+    image: 'images/DSC06632.jpg',
+    date: 'Sep 10, 2024',
+    readTime: '15 min read'
   }
 ];
 
@@ -202,7 +202,7 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
             <div className="lg:w-1/2 relative">
               <div className="relative rounded-[2rem] overflow-hidden shadow-xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
+                  src="/images/spa.jpeg" 
                   alt="MySpa Insights Tablet" 
                   className="w-full h-auto block"
                 />
@@ -227,7 +227,7 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
           <div className="relative rounded-[3rem] overflow-hidden min-h-[450px] flex items-center justify-center shadow-2xl border border-gray-100">
             {/* Card Internal Background Image */}
             <img 
-              src="https://images.unsplash.com/photo-1544161515-4ad6ce6db874?q=80&w=2070&auto=format&fit=crop" 
+              src="/images/ESPA-Innovation-2022.png" 
               className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[2000ms] block"
               alt="Massage Background"
             />

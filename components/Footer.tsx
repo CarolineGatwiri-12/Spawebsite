@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li className="flex gap-3 items-center">
                 <Mail size={14} className="text-[#207D40]" />
-                <span>sales@dimetechgroup.com</span>
+                <span>contact@dimetechgroup.com</span>
               </li>
             </ul>
           </div>

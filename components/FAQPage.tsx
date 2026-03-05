@@ -1,33 +1,74 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle, ShieldCheck, Zap, CreditCard, Sparkles } from 'lucide-react';
+import { ChevronDown, HelpCircle, ShieldCheck, Zap, CreditCard, Sparkles, Gift, Users } from 'lucide-react';
 
 const faqs = [
   {
-    question: "What is Myspa System?",
-    answer: "MySpa is an enterprise-grade, cloud-based ERP solution specifically engineered for the wellness and beauty industry. Unlike simple booking tools, MySpa unifies your entire business lifecycle—from scheduling and CRM to inventory tracking and high-precision financial reporting—into one seamless ecosystem.",
+    question: "What is Myspa ERP System?",
+    answer: "MySpa ERP System is a cloud-based Spa Management Software designed exclusively for spas. It is a complete Spa ERP solution that integrates bookings, client management, accounting, HR, inventory, billing, reporting, and gift vouchers into one unified platform. Unlike basic booking tools, it provides full operational visibility and business control.",
     icon: Sparkles
   },
   {
-    question: "How do I get started with Myspa System?",
-    answer: "Getting started is effortless. Simply book a demo through our website, and one of our implementation specialists will walk you through a custom configuration. We handle the heavy lifting, including data migration from your legacy system and comprehensive staff training provided by our local support teams.",
+    question: "How do I get started with Myspa ERP System?",
+    answer: "To get started with MySpa ERP System, request a demo, select a suitable subscription plan, and complete onboarding with our support team. Since MySpa is cloud-based, no installation is required. You can access your Spa ERP system securely from any device with internet access.",
     icon: Zap
   },
   {
-    question: "How much does Myspa System cost?",
-    answer: "Our pricing is transparent and scalable, starting at KES 3,999/month for boutique solo artists. We offer flexible tiers (Starter, Growth, and Pro) to match your operational volume. For large franchises with 10+ locations, we provide bespoke enterprise quotes based on your specific architectural needs.",
+    question: "How much does Myspa ERP System cost?",
+    answer: "The cost of MySpa ERP System depends on the number of users, branches, and required modules. Pricing is subscription-based and tailored to your spa’s size and operational needs. Contact us for a customized quote based on your business structure.",
     icon: CreditCard
   },
   {
-    question: "Can I cancel my subscription at any time?",
-    answer: "Yes. We believe in the quality of our product, not long-term lock-ins. You can transition your plan or cancel your subscription at any time with zero hidden fees. Your data remains yours, and we provide seamless export tools should you ever choose to migrate.",
+    question: "Can I cancel my Myspa ERP System subscription at any time?",
+    answer: "Yes, MySpa ERP System operates on a subscription model. You may cancel according to your agreed billing terms. We prioritize flexibility while building long-term partnerships with spa businesses.",
     icon: HelpCircle
   },
   {
-    question: "Is Myspa System secure?",
-    answer: "Security is the foundation of MySpa. We employ enterprise-grade 256-bit encryption, automated daily backups, and are fully PCI-DSS compliant. Your client data and financial records are stored in secure cloud environments with multi-factor authentication and strict access governance.",
+    question: "Is Myspa ERP System secure?",
+    answer: "Yes, MySpa ERP System is built on secure cloud infrastructure with encrypted data storage, role-based access control, secure authentication, and regular system updates. Your client data, financial records, and operational information remain protected at all times.",
     icon: ShieldCheck
+  },
+  {
+    question: "How does the Myspa ERP dashboard work?",
+    answer: "The MySpa ERP dashboard provides real-time visibility into revenue, client visits, payments, inventory levels, staff activity, and profitability. It acts as a centralized command center, helping spa owners make data-driven decisions using live performance analytics.",
+    icon: Sparkles
+  },
+  {
+    question: "How does the Client Module work?",
+    answer: "Watch our step-by-step video explaining how the Client Module helps you manage customer profiles, visit history, preferences, and loyalty information in one place.",
+    icon: HelpCircle
+  },
+  {
+    question: "How are customer orders created in Myspa ERP System?",
+    answer: "Watch our tutorial video to see how customer orders are created, managed, and linked to billing and inventory inside the MySpa ERP system.",
+    icon: HelpCircle
+  },
+  {
+    question: "How does the Stock & Inventory Module work?",
+    answer: "Watch the video guide to learn how MySpa tracks product usage, monitors stock levels, manages suppliers, and prevents shortages through smart inventory control.",
+    icon: HelpCircle
+  },
+  {
+    question: "How do gift cards and vouchers work?",
+    answer: "Watch our video tutorial to learn how to create, sell, and redeem gift cards and vouchers to increase spa revenue and customer engagement.",
+    icon: Gift
+  },
+  {
+    question: "How does the HR Management Module work?",
+    answer: "Watch our video to understand how MySpa manages staff schedules, attendance, payroll tracking, and performance incentives in one integrated HR system.",
+    icon: Users
+  },
+  {
+    question: "How does Myspa ERP System help manage daily spa operations?",
+    answer: "MySpa ERP System centralizes bookings, billing, HR, inventory, accounting, and reporting into one integrated Spa Operations System. This eliminates disconnected tools and improves workflow efficiency across your entire spa business.",
+    icon: Zap
+  },
+  {
+    question: "How does Myspa ERP System improve business performance and growth?",
+    answer: "MySpa improves business performance by providing real-time data, financial visibility, and structured reporting. Spa owners can identify profitable services, reduce inefficiencies, improve staff productivity, and scale confidently using actionable insights.",
+    icon: Sparkles
   }
 ];
+
 
 const FAQPage: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
