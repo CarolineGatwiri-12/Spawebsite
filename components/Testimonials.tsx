@@ -4,39 +4,39 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const testimonials = [
   {
-    name: "Elena Rodriguez",
+    name: "Elena Wambui",
     role: "Founder, Azure Wellness Spa",
-    location: "Miami, FL",
+    location: "Uganda",
     content:
       "MySpa has completely transformed the way we manage our multi-location brand. The intuitive ERP modules and real-time analytics have been total game-changers for our bottom line.",
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
+    img: "/images/photo1.jpg",
     stat: { value: "+38%", label: "Revenue Growth" },
   },
   {
-    name: "Marcus Thorne",
+    name: "Mercy Nyakio",
     role: "Managing Director, Zenith Retreats",
-    location: "Malibu, CA",
+    location: "Nairobi, Kenya",
     content:
       "Managing 15 locations across the coast was a nightmare before MySpa. Now I have a unified command center that handles everything from HR to high-precision inventory tracking.",
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop",
+    img: "/images/photo 2.avif",
     stat: { value: "15×", label: "Locations Managed" },
   },
   {
-    name: "Dr. Sarah Chen",
+    name: "Dr. Samuel Gitonga",
     role: "Director, Holistic Medical Spa",
-    location: "New York, NY",
+    location: "Mombasa, Kenya",
     content:
       "The level of detail in the client management system is unparalleled. We track preferences and medical history with the security and precision our clinic demands.",
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop",
+    img: "/images/photo 3.webp",
     stat: { value: "100%", label: "Compliance Rate" },
   },
   {
-    name: "Priya Kapoor",
+    name: "Sarah Wahome",
     role: "CEO, Luminos Day Spa Group",
-    location: "London, UK",
+    location: "Tanzania",
     content:
       "Switching to MySpa was the best operational decision we've made. Booking rates are up, staff scheduling is seamless, and clients consistently remark on the improved experience.",
-    img: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?q=80&w=200&auto=format&fit=crop",
+    img: "/images/photo 4.webp",
     stat: { value: "+52%", label: "Booking Rate" },
   },
 ];

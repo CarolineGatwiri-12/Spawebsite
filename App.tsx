@@ -52,10 +52,8 @@ const InnovationSection: React.FC = () => {
           style={{ background: `radial-gradient(circle, ${BRAND.amber}, transparent 65%)`, filter: 'blur(60px)' }} />
       </div>
 
-      
-
       {/* ── Content ── */}
-      <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-10 py-32">
+      <div className="relative z-20 max-w-screen-2xl mx-auto px-6 lg:px-16 py-32">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
           {/* Left: headline + CTAs */}

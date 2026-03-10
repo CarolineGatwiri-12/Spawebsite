@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
         />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-24 lg:py-0 w-full">
+      <div className="relative max-w-screen-2xl mx-auto px-6 lg:px-16 py-24 lg:py-0 w-full">
         <div className="grid lg:grid-cols-[1fr_1.15fr] gap-14 xl:gap-20 items-center">
 
           {/* ─────────── LEFT COLUMN ─────────── */}

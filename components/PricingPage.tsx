@@ -1,291 +1,401 @@
 import React, { useState } from 'react';
-import { 
-  Check, ArrowRight, Sparkles, Zap, ShieldCheck, Globe, Star, 
-  ArrowUpRight, Crown, Rocket, Landmark, HelpCircle, Info,
-  Shield, Smartphone, Activity, BarChart3
+import {
+  Check, ArrowRight, Sparkles, Globe,
+  Rocket, Landmark, HelpCircle,
+  Shield, ShieldCheck, Activity, BarChart3
 } from 'lucide-react';
 
+// ─── Brand tokens ───────────────────────────────────────────────
+const G  = '#2E8B35';                          // brand green
+const AM = '#F5A800';                          // brand amber
+const Gr = (a) => `rgba(46,139,53,${a})`;     // green with alpha
+const Am = (a) => `rgba(245,168,0,${a})`;     // amber with alpha
+// ────────────────────────────────────────────────────────────────
+
 const plans = [
-  {
-    id: 'starter',
-    name: "Starter",
-    icon: Rocket,
-    price: "3,999",
-    tagline: "The foundation for solo artists and boutique salons.",
-    description: "Everything you need to move away from paper notebooks and into a digital-first workflow.",
-    features: [
-      "Appointment Scheduling",
-      "Online Booking",
-      "Client Management",
-      "Basic Reports",
-      "SMS & Email Reminders"
-    ],
-    buttonText: "Start Free Trial",
-    theme: "light",
-    accent: "#111827"
-  },
-  {
-    id: 'growth',
-    name: "Growth",
-    icon: Sparkles,
-    price: "7,499",
-    tagline: "The engine for ambitious, multi-service teams.",
-    description: "Scale your revenue with automated marketing, inventory tracking, and loyalty programs.",
-    features: [
-      "All Starter Features",
-      "Product Inventory",
-      "Marketing Campaigns",
-      "Gift Vouchers",
-      "Discount Coupon Codes",
-      "Staff Management"
-    ],
-    buttonText: "Join the Elite",
-    theme: "green",
-    popular: true,
-    accent: "#207D40"
-  },
-  {
-    id: 'pro',
-    name: "Pro",
-    icon: Landmark,
-    price: "11,999",
-    tagline: "The ultimate command center for enterprises.",
-    description: "Bespoke analytics and multi-location governance for brands that demand perfection.",
-    features: [
-      "All Growth Features",
-      "Multi-Location Management",
-      "Advanced Analytics",
-      "Data Export & API",
-      "Priority 24/7 Support",
-      "Incentive Management"
-    ],
-    buttonText: "Request Enterprise Access",
-    theme: "orange",
-    accent: "#F7A300"
-  }
+  { id: 'starter', name: "Starter", icon: Rocket,   price: "3,999",  tagline: "The foundation for solo artists and boutique salons.", features: ["Appointment Scheduling","Online Booking","Client Management","Basic Reports","SMS & Email Reminders"], buttonText: "Start Free Trial",          theme: "light" },
+  { id: 'growth',  name: "Growth",  icon: Sparkles, price: "7,499",  tagline: "The engine for ambitious, multi-service teams.",        features: ["All Starter Features","Product Inventory","Marketing Campaigns","Gift Vouchers","Discount Coupon Codes","Staff Management"], buttonText: "Join the Elite",             theme: "green", popular: true },
+  { id: 'pro',     name: "Pro",     icon: Landmark, price: "11,999", tagline: "The ultimate command center for enterprises.",          features: ["All Growth Features","Multi-Location Management","Advanced Analytics","Data Export & API","Priority 24/7 Support","Incentive Management"], buttonText: "Request Enterprise Access", theme: "dark"  }
 ];
 
 const comparisonData = [
-  {
-    category: "Experience & Booking",
-    features: [
-      { name: "24/7 Online Booking", starter: true, growth: true, pro: true },
-      { name: "Branded Client App", starter: false, growth: "Optional", pro: true },
-      { name: "Automated Reminders", starter: "Standard", growth: "Customizable", pro: "Priority Routing" },
-      { name: "Waitlist Management", starter: false, growth: true, pro: true },
-    ]
-  },
-  {
-    category: "Operations & Staff",
-    features: [
-      { name: "Inventory Management", starter: "Basic", growth: "Advanced", pro: "Enterprise" },
-      { name: "Payroll & Commission", starter: false, growth: true, pro: true },
-      { name: "Staff Mobile App", starter: true, growth: true, pro: true },
-      { name: "Shift Scheduling", starter: "Manual", growth: "Smart Auto", pro: "Optimized AI" },
-    ]
-  },
-  {
-    category: "Marketing & Growth",
-    features: [
-      { name: "Email Marketing", starter: "500/mo", growth: "5,000/mo", pro: "Unlimited" },
-      { name: "Loyalty Programs", starter: false, growth: true, pro: true },
-      { name: "Membership Management", starter: false, growth: true, pro: true },
-      { name: "Review Automation", starter: true, growth: true, pro: true },
-    ]
-  },
-  {
-    category: "Intelligence & Scale",
-    features: [
-      { name: "Standard Reports", starter: true, growth: true, pro: true },
-      { name: "Advanced Analytics", starter: false, growth: true, pro: true },
-      { name: "Multi-Location Control", starter: false, growth: false, pro: true },
-      { name: "API & Webhooks", starter: false, growth: false, pro: true },
-    ]
-  }
+  { category: "Experience & Booking", features: [
+    { name: "24/7 Online Booking",   starter: true,       growth: true,          pro: true },
+    { name: "Branded Client App",    starter: false,      growth: "Optional",    pro: true },
+    { name: "Automated Reminders",   starter: "Standard", growth: "Customizable",pro: "Priority Routing" },
+    { name: "Waitlist Management",   starter: false,      growth: true,          pro: true },
+  ]},
+  { category: "Operations & Staff", features: [
+    { name: "Inventory Management",  starter: "Basic",    growth: "Advanced",    pro: "Enterprise" },
+    { name: "Payroll & Commission",  starter: false,      growth: true,          pro: true },
+    { name: "Staff Mobile App",      starter: true,       growth: true,          pro: true },
+    { name: "Shift Scheduling",      starter: "Manual",   growth: "Smart Auto",  pro: "Optimized AI" },
+  ]},
+  { category: "Marketing & Growth", features: [
+    { name: "Email Marketing",       starter: "500/mo",   growth: "5,000/mo",    pro: "Unlimited" },
+    { name: "Loyalty Programs",      starter: false,      growth: true,          pro: true },
+    { name: "Membership Management", starter: false,      growth: true,          pro: true },
+    { name: "Review Automation",     starter: true,       growth: true,          pro: true },
+  ]},
+  { category: "Intelligence & Scale", features: [
+    { name: "Standard Reports",      starter: true,       growth: true,          pro: true },
+    { name: "Advanced Analytics",    starter: false,      growth: true,          pro: true },
+    { name: "Multi-Location Control",starter: false,      growth: false,         pro: true },
+    { name: "API & Webhooks",        starter: false,      growth: false,         pro: true },
+  ]}
 ];
 
-const PricingPage: React.FC = () => {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+const PricingPage = () => {
+  const [billingCycle, setBillingCycle] = useState('monthly');
 
   return (
-    <div className="bg-white selection:bg-[#207D40] selection:text-white font-['Inter']">
-      {/* SECTION 1: HERO */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-28 overflow-hidden">
-        <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="lg:w-3/5">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="h-px w-8 bg-gray-200"></span>
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Value | Logic | Scale</span>
+    <div style={{ fontFamily: "'Poppins', sans-serif", background: '#fff', minHeight: '100vh' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .pricing-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .pricing-card:hover { transform: translateY(-6px); }
+
+        .plan-btn {
+          width: 100%; padding: 14px 24px; border-radius: 12px; border: none;
+          font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px;
+          letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+          transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .plan-btn:hover { filter: brightness(0.88); transform: translateY(-1px); }
+
+        .cta-primary {
+          background: #2E8B35; color: #fff; border: none;
+          padding: 16px 36px; border-radius: 12px; cursor: pointer;
+          font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.08em; text-transform: uppercase;
+          transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+          box-shadow: 0 8px 32px rgba(46,139,53,0.35);
+        }
+        .cta-primary:hover { background: #256b2b; transform: translateY(-2px); box-shadow: 0 14px 40px rgba(46,139,53,0.45); }
+
+        .ghost-btn {
+          background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6);
+          padding: 15px 28px; border-radius: 12px; font-family: 'Poppins', sans-serif;
+          font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+          cursor: pointer; transition: all 0.18s;
+        }
+        .ghost-btn:hover { border-color: rgba(46,139,53,0.55); color: #2E8B35; }
+
+        .billing-btn {
+          padding: 9px 24px; border-radius: 8px; border: none; cursor: pointer;
+          font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px;
+          letter-spacing: 0.05em; transition: all 0.15s;
+        }
+
+        .highlight-strip {
+          border-top: 1px solid #f1f5f9; padding-top: 48px;
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+        }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.6s ease both; }
+
+        @keyframes pulse-bar {
+          0%,100% { opacity: 0.4; transform: scaleY(1); }
+          50%      { opacity: 1;   transform: scaleY(1.18); }
+        }
+        .stat-bar { animation: pulse-bar 2.8s ease-in-out infinite; transform-origin: center; }
+
+        .cmp-row { transition: background 0.12s; }
+        .cmp-row:hover { background: rgba(255,255,255,0.024) !important; }
+
+        /* White diagonal cut at bottom of hero */
+        .hero-cut {
+          position: absolute; bottom: -1px; left: 0; right: 0; height: 72px;
+          background: #fff; clip-path: polygon(0 100%, 100% 20%, 100% 100%); z-index: 2;
+        }
+
+        @media (max-width: 900px) {
+          .plans-grid    { grid-template-columns: 1fr !important; }
+          .highlight-strip { grid-template-columns: 1fr 1fr !important; }
+          .hero-grid     { grid-template-columns: 1fr !important; }
+          .hero-img-col  { display: none !important; }
+        }
+      `}</style>
+
+      {/* ══════════════════════════════════════════════
+          HERO — pure neutral dark, brand glows
+      ══════════════════════════════════════════════ */}
+      <section style={{
+        position: 'relative', background: '#0a0a0b',
+        overflow: 'hidden', minHeight: '120vh',
+        display: 'flex', alignItems: 'center',
+      }}>
+        {/* Fine grid */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px)', backgroundSize: '60px 60px', zIndex: 0 }} />
+        {/* Green glow — top-left */}
+        <div style={{ position: 'absolute', top: '-160px', left: '-140px', width: '720px', height: '720px', borderRadius: '50%', background: `radial-gradient(circle, ${Gr(0.17)} 0%, transparent 68%)`, zIndex: 0 }} />
+        {/* Amber glow — bottom-right */}
+        <div style={{ position: 'absolute', bottom: '-100px', right: '4%',  width: '580px', height: '580px', borderRadius: '50%', background: `radial-gradient(circle, ${Am(0.11)} 0%, transparent 68%)`, zIndex: 0 }} />
+        {/* Soft centre bloom */}
+        <div style={{ position: 'absolute', top: '42%', left: '40%', width: '300px', height: '300px', borderRadius: '50%', background: `radial-gradient(circle, ${Gr(0.05)} 0%, transparent 70%)`, zIndex: 0 }} />
+   
+
+        <div style={{ width: '100%', maxWidth: '1920px', margin: '0 auto', padding: '100px 5vw 160px', position: 'relative', zIndex: 1 }}>
+          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 580px', alignItems: 'center', gap: '80px' }}>
+
+            {/* ── Left col ── */}
+            <div>
+              {/* Eyebrow pill */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '36px', background: Gr(0.1), border: `1px solid ${Gr(0.25)}`, borderRadius: '99px', padding: '7px 18px 7px 12px' }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: G }} />
+                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.4em', textTransform: 'uppercase', color: G }}>Value · Logic · Scale</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#111827] leading-[1.1] tracking-tighter mb-8">
-                Pricing <br />
-                <span className="text-[#207D40]">For</span> <span className="text-[#F7A300]">The</span> <br />
+
+              {/* ── Hero heading — reduced from clamp(52px, 6vw, 98px) to clamp(36px, 4vw, 64px) ── */}
+              <h1 style={{ fontSize: 'clamp(36px, 4vw, 64px)', fontWeight: 800, lineHeight: 1.0, color: '#fff', letterSpacing: '-0.04em', marginBottom: '28px' }}>
+                Pricing<br />
+                <span style={{ color: G }}>For</span> <span style={{ color: AM }}>The</span><br />
                 Modern Brand.
               </h1>
-              <p className="text-sm md:text-base text-gray-400 font-medium max-md leading-relaxed mb-10">
-                Simple pricing that scales with you — whether you’re a boutique spa or a multi-location enterprise brand.
+
+              <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.85, marginBottom: '52px', maxWidth: '500px', fontWeight: 400 }}>
+                Simple pricing that scales with you — whether you're a boutique spa or a multi-location enterprise brand.
               </p>
-              
-              <button className="bg-[#207D40] text-white px-8 py-3.5 rounded-full font-black text-xs hover:bg-[#1a6333] transition-all active:scale-95 shadow-xl shadow-[#207D40]/10">
-                Get Started Now
-              </button>
-            </div>
-            
-            <div className="lg:w-2/5 relative">
-               <div className="relative group">
-                  <div className="relative rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
-                    <img 
-                      src="\images\pricing.jpeg" 
-                      alt="Facial Treatment" 
-                      className="w-full h-[400px] object-cover block"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div className="absolute bottom-6 left-6">
-                        <div className="bg-[#207D40] text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 mb-1.5">
-                           <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div> Case Study
-                        </div>
-                        <p className="text-white text-xs font-bold leading-tight">Trusted by 2,400+<br/>Elite Spas globally.</p>
-                    </div>
+
+              {/* Stats panel */}
+              <div style={{ display: 'flex', marginBottom: '52px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', overflow: 'hidden' }}>
+                {[{ num: '2,400+', label: 'Elite Spas' }, { num: '99.9%', label: 'Uptime SLA' }, { num: '24/7', label: 'Support' }].map((s, i) => (
+                  <div key={i} style={{ flex: 1, padding: '24px 28px', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none', position: 'relative' }}>
+                    {i === 0 && <div className="stat-bar" style={{ position: 'absolute', left: 0, top: '22%', bottom: '22%', width: '3px', background: G, borderRadius: '99px' }} />}
+                    <div style={{ fontSize: '30px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.num}</div>
+                    <div style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.14em', marginTop: '6px' }}>{s.label}</div>
                   </div>
-               </div>
+                ))}
+              </div>
+
+              {/* CTA row */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                <button className="cta-primary">Get Started Now <ArrowRight size={15} /></button>
+                <button className="ghost-btn">View Demo</button>
+              </div>
             </div>
+
+            {/* ── Right col — image ── */}
+            <div className="hero-img-col" style={{ position: 'relative' }}>
+              {/* Glow ring behind card */}
+              <div style={{ position: 'absolute', inset: '-14px', borderRadius: '46px', background: `linear-gradient(135deg, ${Gr(0.28)}, ${Am(0.14)})`, zIndex: 0, filter: 'blur(20px)' }} />
+
+              <div style={{ borderRadius: '32px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 64px 120px rgba(0,0,0,0.72)', position: 'relative', zIndex: 1 }}>
+                <img src="/images/pricing.jpeg" alt="Facial Treatment"
+                  style={{ width: '100%', height: '72vh', minHeight: '580px', objectFit: 'cover', display: 'block' }} />
+                {/* Bottom fade */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.9) 0%, transparent 52%)' }} />
+                {/* Green accent stripe top-right */}
+                <div style={{ position: 'absolute', top: 0, right: 0, width: '4px', height: '42%', background: `linear-gradient(to bottom, ${G}, transparent)` }} />
+                {/* Badge bottom-left */}
+                <div style={{ position: 'absolute', bottom: '32px', left: '28px' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: G, color: '#fff', padding: '6px 14px', borderRadius: '99px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '12px', boxShadow: `0 4px 16px ${Gr(0.5)}` }}>
+                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#fff', opacity: 0.8 }} />
+                    Case Study
+                  </div>
+                  <p style={{ color: '#fff', fontSize: '16px', fontWeight: 700, lineHeight: 1.4 }}>Trusted by 2,400+<br />Elite Spas globally.</p>
+                </div>
+              </div>
+
+              {/* Floating amber card — top-right */}
+              <div style={{ position: 'absolute', top: '-28px', right: '-28px', background: AM, borderRadius: '22px', padding: '22px 28px', boxShadow: `0 24px 56px ${Am(0.45)}`, zIndex: 2 }}>
+                <div style={{ fontSize: '34px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>2,400+</div>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: '5px' }}>Elite Spas</div>
+              </div>
+
+              {/* Floating dark card — bottom-left */}
+              <div style={{ position: 'absolute', bottom: '22%', left: '-38px', background: '#141414', border: `1px solid ${Gr(0.3)}`, borderRadius: '16px', padding: '16px 20px', boxShadow: '0 16px 40px rgba(0,0,0,0.55)', zIndex: 2, display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: Gr(0.14), display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <ShieldCheck size={16} color={G} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>99.9% Uptime</div>
+                  <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', fontWeight: 500, marginTop: '3px' }}>Enterprise SLA</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* BILLING SWITCH */}
-      <div className="container mx-auto px-4 md:px-8 mb-12">
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="flex bg-gray-50 p-1 rounded-xl border border-gray-100">
-            <button 
-              onClick={() => setBillingCycle('monthly')}
-              className={`px-6 py-2 rounded-lg text-[11px] font-black transition-all ${billingCycle === 'monthly' ? 'bg-[#111827] text-white shadow-md' : 'text-gray-400'}`}
-            >
-              Monthly
-            </button>
-            <button 
-              onClick={() => setBillingCycle('yearly')}
-              className={`px-6 py-2 rounded-lg text-[11px] font-black transition-all ${billingCycle === 'yearly' ? 'bg-[#111827] text-white shadow-md' : 'text-gray-400'}`}
-            >
-              Yearly
-            </button>
+      {/* ── BILLING TOGGLE ── */}
+      <div style={{ background: '#fff', padding: '40px 5vw 32px', maxWidth: '1600px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', background: '#f8fafc', padding: '4px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+            {['monthly', 'yearly'].map(c => (
+              <button key={c} className="billing-btn" onClick={() => setBillingCycle(c)}
+                style={{ background: billingCycle === c ? '#111827' : 'transparent', color: billingCycle === c ? '#fff' : '#94a3b8', textTransform: 'capitalize' }}>
+                {c.charAt(0).toUpperCase() + c.slice(1)}
+              </button>
+            ))}
           </div>
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-md bg-green-50 text-[#207D40] text-[9px] font-black uppercase tracking-widest border border-green-100">Save 15%</span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Annual commitment</span>
-          </div>
+          <span style={{ background: Gr(0.08), color: G, border: `1px solid ${Gr(0.2)}`, padding: '3px 10px', borderRadius: '99px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Save 15%</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Annual commitment</span>
         </div>
       </div>
 
-      {/* PRICING CARDS */}
-      <section className="pb-24">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {plans.map((plan) => (
-              <div 
-                key={plan.id}
-                className={`relative flex flex-col p-10 rounded-[2.5rem] transition-all duration-500 hover:-translate-y-1 ${
-                  plan.theme === 'green' ? 'bg-[#F0FDF4] border border-[#207D40]/20' : 
-                  plan.theme === 'orange' ? 'bg-[#F7A300] text-white' : 
-                  'bg-[#F8FAFC] border border-gray-100'
-                }`}
-              >
+      {/* ── PRICING CARDS ── */}
+      <section style={{ padding: '0 5vw 96px', maxWidth: '1600px', margin: '0 auto' }}>
+        <div className="plans-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', alignItems: 'stretch' }}>
+          {plans.map((plan, i) => {
+            const isGreen = plan.theme === 'green';
+            const isDark  = plan.theme === 'dark';
+            return (
+              <div key={plan.id} className="pricing-card fade-up" style={{
+                position: 'relative', display: 'flex', flexDirection: 'column',
+                padding: '40px 36px', borderRadius: '24px',
+                background: isDark ? '#111827' : isGreen ? Gr(0.05) : '#f8fafc',
+                border: isGreen ? `1.5px solid ${Gr(0.25)}` : isDark ? `1.5px solid ${Am(0.2)}` : '1.5px solid #f1f5f9',
+                boxShadow: isGreen ? `0 20px 60px ${Gr(0.1)}` : isDark ? '0 20px 60px rgba(0,0,0,0.2)' : '0 4px 24px rgba(0,0,0,0.04)',
+                animationDelay: `${i * 0.1}s`,
+              }}>
                 {plan.popular && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 bg-[#207D40] text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
-                    <Check size={10} strokeWidth={4} /> Industry Standard
+                  <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: G, color: '#fff', padding: '6px 16px', borderRadius: '99px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '5px', boxShadow: `0 8px 20px ${Gr(0.35)}` }}>
+                    <Check size={9} strokeWidth={4} /> Industry Standard
                   </div>
                 )}
-
-                <div className="mb-8">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-6 ${plan.theme === 'orange' ? 'bg-white/10 text-white' : 'bg-white shadow-md text-[#111827]'}`}>
-                    <plan.icon size={18} />
+                <div style={{ marginBottom: '28px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: isDark ? Am(0.15) : isGreen ? Gr(0.12) : 'rgba(17,24,39,0.06)', marginBottom: '20px' }}>
+                    <plan.icon size={20} color={isDark ? AM : isGreen ? G : '#111827'} />
                   </div>
-                  <h2 className="text-xl font-black tracking-tighter mb-1">{plan.name}</h2>
-                  <p className={`text-[11px] font-medium mb-8 ${plan.theme === 'orange' ? 'text-white/80' : 'text-gray-400'}`}>{plan.tagline}</p>
-                  
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-[10px] font-black opacity-30 uppercase tracking-widest">KES</span>
-                    <span className="text-3xl font-black tracking-tighter leading-none">{plan.price}</span>
-                    <span className="text-[11px] font-bold opacity-30">/ mo</span>
+                  <h2 style={{ fontSize: '24px', fontWeight: 800, letterSpacing: '-0.02em', color: isDark ? '#fff' : '#111827', marginBottom: '4px' }}>{plan.name}</h2>
+                  <p style={{ fontSize: '13px', fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.45)' : '#94a3b8', marginBottom: '24px', lineHeight: 1.5 }}>{plan.tagline}</p>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.3)' : '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.1em' }}>KES</span>
+                    <span style={{ fontSize: '42px', fontWeight: 900, letterSpacing: '-0.04em', color: isDark ? AM : isGreen ? G : '#111827', lineHeight: 1 }}>{plan.price}</span>
+                    <span style={{ fontSize: '13px', fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.25)' : '#cbd5e1' }}>/ mo</span>
                   </div>
                 </div>
-
-                <div className="flex-grow">
-                  <ul className="space-y-3 mb-10">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <Check size={12} strokeWidth={4} className={plan.theme === 'orange' ? 'text-white' : 'text-[#207D40]'} />
-                        <span className={`text-[11px] font-bold ${plan.theme === 'orange' ? 'text-white' : 'text-gray-700'}`}>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <button 
-                  className={`w-full py-3.5 rounded-xl font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-2 group ${
-                    plan.theme === 'orange' ? 'bg-[#111827] text-white hover:bg-gray-800' : 
-                    plan.theme === 'green' ? 'bg-[#207D40] text-white hover:bg-[#1a6333]' : 
-                    'bg-[#111827] text-white hover:bg-gray-800'
-                  }`}
-                >
-                  {plan.buttonText}
+                <div style={{ height: '1px', background: isDark ? 'rgba(255,255,255,0.07)' : '#f1f5f9', marginBottom: '24px' }} />
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: '13px', flex: 1, marginBottom: '32px' }}>
+                  {plan.features.map((f, fi) => (
+                    <li key={fi} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ width: '22px', height: '22px', borderRadius: '7px', background: isDark ? Am(0.15) : isGreen ? Gr(0.1) : 'rgba(17,24,39,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <Check size={12} strokeWidth={3} color={isDark ? AM : isGreen ? G : '#111827'} />
+                      </div>
+                      <span style={{ fontSize: '14px', fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.75)' : '#475569' }}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button className="plan-btn" style={{ background: isDark ? AM : isGreen ? G : '#111827', color: '#fff' }}>
+                  {plan.buttonText} <ArrowRight size={13} />
                 </button>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* COMPARISON TABLE HEADER */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-8">
-           <div className="flex items-center gap-3 mb-6">
-            <span className="h-[2px] w-10 bg-[#207D40]"></span>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#207D40]">Capability Matrix</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#111827] tracking-tighter mb-4 leading-tight">
-            Compare Every <br /> Detail of the Craft.
-          </h2>
-          <p className="text-sm text-gray-400 font-medium max-w-lg leading-relaxed">
-            Precision engineering at every tier. Whether you're starting out or scaling globally, our features adapt to your operational rhythms.
-          </p>
-        </div>
-      </section>
+      {/* ══════════════════════════════════════════════
+          COMPARISON — neutral dark, no green-cast bg
+      ══════════════════════════════════════════════ */}
+      <section style={{ background: '#0d0d0f', padding: '96px 5vw', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px)', backgroundSize: '52px 52px', zIndex: 0 }} />
+        <div style={{ position: 'absolute', top: '-140px', right: '12%', width: '500px', height: '500px', borderRadius: '50%', background: `radial-gradient(circle, ${Gr(0.1)} 0%, transparent 65%)`, zIndex: 0 }} />
+        <div style={{ position: 'absolute', bottom: '-80px', left: '4%',  width: '340px', height: '340px', borderRadius: '50%', background: `radial-gradient(circle, ${Am(0.08)} 0%, transparent 65%)`, zIndex: 0 }} />
 
-      {/* COMPARISON TABLE */}
-      <section className="pb-24">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="overflow-hidden bg-white rounded-[2rem] border border-gray-100 shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left min-w-[700px]">
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '1600px', margin: '0 auto' }}>
+
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap', marginBottom: '56px' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                <div style={{ width: '28px', height: '2px', background: G }} />
+                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.45em', textTransform: 'uppercase', color: G }}>Capability Matrix</span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.04 }}>
+                Compare Every<br />Detail of the Craft.
+              </h2>
+            </div>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.38)', fontWeight: 400, lineHeight: 1.8, maxWidth: '360px' }}>
+              Precision engineering at every tier. Whether you're starting out or scaling globally, our features adapt to your operational rhythms.
+            </p>
+          </div>
+
+          {/* Table */}
+          <div style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '680px' }}>
                 <thead>
-                  <tr className="bg-[#111827] text-white">
-                    <th className="p-6 text-[11px] font-black uppercase tracking-[0.3em] opacity-40">Core Capabilities</th>
-                    <th className="p-6 text-xs font-black text-center">Starter</th>
-                    <th className="p-6 text-xs font-black text-[#207D40] text-center">Growth</th>
-                    <th className="p-6 text-xs font-black text-[#F7A300] text-center">Pro</th>
+                  {/* Pure dark header — no green-tinted #0f1a11 */}
+                  <tr style={{ background: '#18181b' }}>
+                    <th style={{ padding: '22px 28px', textAlign: 'left', fontSize: '10px', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', width: '38%', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                      Core Capabilities
+                    </th>
+                    {/* Starter */}
+                    <th style={{ padding: '22px 24px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.07)', borderLeft: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Rocket size={14} color="rgba(255,255,255,0.4)" />
+                        </div>
+                        <span style={{ fontSize: '12px', fontWeight: 800, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.05em' }}>Starter</span>
+                      </div>
+                    </th>
+                    {/* Growth — brand green highlight */}
+                    <th style={{ padding: '22px 24px', textAlign: 'center', background: Gr(0.1), borderBottom: `1px solid ${Gr(0.22)}`, borderLeft: `1px solid ${Gr(0.15)}`, borderRight: `1px solid ${Gr(0.15)}` }}>
+                      <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: Gr(0.18), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Sparkles size={14} color={G} />
+                        </div>
+                        <span style={{ fontSize: '12px', fontWeight: 800, color: G, letterSpacing: '0.05em' }}>Growth</span>
+                        <span style={{ fontSize: '8px', fontWeight: 800, background: G, color: '#fff', padding: '2px 8px', borderRadius: '99px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Popular</span>
+                      </div>
+                    </th>
+                    {/* Pro — amber accent */}
+                    <th style={{ padding: '22px 24px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.07)', borderLeft: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                        <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: Am(0.12), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Landmark size={14} color={AM} />
+                        </div>
+                        <span style={{ fontSize: '12px', fontWeight: 800, color: AM, letterSpacing: '0.05em' }}>Pro</span>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {comparisonData.map((category, catIdx) => (
-                    <React.Fragment key={catIdx}>
-                      <tr className="bg-gray-50/30">
-                        <td colSpan={4} className="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">
-                          {category.category}
+                  {comparisonData.map((cat, ci) => (
+                    <React.Fragment key={ci}>
+                      <tr>
+                        <td colSpan={4} style={{ padding: '13px 28px', background: 'rgba(255,255,255,0.022)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{ width: '3px', height: '12px', background: G, borderRadius: '99px', opacity: 0.65 }} />
+                            <span style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)' }}>{cat.category}</span>
+                          </div>
                         </td>
                       </tr>
-                      {category.features.map((row, rowIdx) => (
-                        <tr key={rowIdx} className="group border-b border-gray-50 last:border-0 hover:bg-gray-50/20 transition-all">
-                          <td className="p-6 font-bold text-[#111827] text-xs tracking-tight">{row.name} <HelpCircle size={10} className="inline ml-1 text-gray-200" /></td>
-                          <td className="p-6 text-gray-400 font-bold text-[10px] text-center">
-                            {row.starter === true ? <Check size={14} className="text-[#207D40] mx-auto" strokeWidth={4} /> : row.starter || <span className="text-gray-200">—</span>}
+                      {cat.features.map((row, ri) => (
+                        <tr key={ri} className="cmp-row" style={{ borderBottom: ri === cat.features.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.04)' }}>
+                          <td style={{ padding: '18px 28px', fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.6)' }}>
+                            {row.name}
+                            <HelpCircle size={11} style={{ display: 'inline', marginLeft: '5px', color: 'rgba(255,255,255,0.14)', verticalAlign: 'middle' }} />
                           </td>
-                          <td className="p-6 text-[#207D40] font-bold text-[10px] text-center">
-                            {row.growth === true ? <Check size={14} className="text-[#207D40] mx-auto" strokeWidth={4} /> : row.growth || <span className="text-gray-200">—</span>}
+                          <td style={{ padding: '18px 24px', textAlign: 'center', borderLeft: '1px solid rgba(255,255,255,0.04)' }}>
+                            {row.starter === true
+                              ? <Check size={16} strokeWidth={3} style={{ color: 'rgba(255,255,255,0.38)', margin: '0 auto', display: 'block' }} />
+                              : row.starter === false
+                                ? <span style={{ color: 'rgba(255,255,255,0.1)', fontSize: '20px', display: 'block', textAlign: 'center' }}>—</span>
+                                : <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.38)' }}>{row.starter}</span>}
                           </td>
-                          <td className="p-6 text-[#F7A300] font-bold text-[10px] text-center">
-                            {row.pro === true ? <Check size={14} className="text-[#F7A300] mx-auto" strokeWidth={4} /> : row.pro || <span className="text-gray-200">—</span>}
+                          <td style={{ padding: '18px 24px', textAlign: 'center', background: Gr(0.06), borderLeft: `1px solid ${Gr(0.1)}`, borderRight: `1px solid ${Gr(0.1)}` }}>
+                            {row.growth === true
+                              ? <Check size={16} strokeWidth={3} style={{ color: G, margin: '0 auto', display: 'block' }} />
+                              : row.growth === false
+                                ? <span style={{ color: 'rgba(255,255,255,0.1)', fontSize: '20px', display: 'block', textAlign: 'center' }}>—</span>
+                                : <span style={{ fontSize: '11px', fontWeight: 700, color: G }}>{row.growth}</span>}
+                          </td>
+                          <td style={{ padding: '18px 24px', textAlign: 'center', borderLeft: '1px solid rgba(255,255,255,0.04)' }}>
+                            {row.pro === true
+                              ? <Check size={16} strokeWidth={3} style={{ color: AM, margin: '0 auto', display: 'block' }} />
+                              : row.pro === false
+                                ? <span style={{ color: 'rgba(255,255,255,0.1)', fontSize: '20px', display: 'block', textAlign: 'center' }}>—</span>
+                                : <span style={{ fontSize: '11px', fontWeight: 700, color: AM }}>{row.pro}</span>}
                           </td>
                         </tr>
                       ))}
@@ -295,81 +405,71 @@ const PricingPage: React.FC = () => {
               </table>
             </div>
           </div>
-          
-          <div className="mt-8 p-6 bg-white rounded-2xl border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400">
-                <HelpCircle size={16} />
+
+          {/* Enterprise nudge */}
+          <div style={{ marginTop: '24px', background: Am(0.06), borderRadius: '18px', border: `1px solid ${Am(0.15)}`, padding: '28px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: Am(0.12), border: `1px solid ${Am(0.2)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <HelpCircle size={18} color={AM} />
               </div>
               <div>
-                <h4 className="text-xs font-black text-[#111827]">Need a custom report?</h4>
-                <p className="text-[11px] text-gray-400 font-medium">For franchises with 10+ locations, we offer bespoke analytics and cloud provisioning.</p>
+                <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>Need a custom report?</h4>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.38)', fontWeight: 400 }}>For franchises with 10+ locations, we offer bespoke analytics and cloud provisioning.</p>
               </div>
             </div>
-            <button className="bg-[#F7A300] text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-orange-600 transition-all shadow-md active:scale-95">
+            <button style={{ background: AM, color: '#fff', border: 'none', padding: '13px 28px', borderRadius: '10px', fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.18s', boxShadow: `0 8px 24px ${Am(0.35)}` }}
+              onMouseEnter={e => e.currentTarget.style.background = '#c98900'}
+              onMouseLeave={e => e.currentTarget.style.background = AM}>
               Contact Enterprise Sales
             </button>
           </div>
         </div>
       </section>
 
-      {/* HIGHLIGHTS STRIP */}
-      <div className="container mx-auto px-4 md:px-8 mb-24">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 border-t border-gray-100 pt-12">
+      {/* ── HIGHLIGHTS STRIP ── */}
+      <div style={{ padding: '64px 5vw 96px', maxWidth: '1600px', margin: '0 auto' }}>
+        <div className="highlight-strip">
           {[
-            { title: "No Lock-in Ever", desc: "Your data is yours, always compliant by default.", icon: Shield },
-            { title: "HR Logic", desc: "Focuses on item features for booking, staff and reports.", icon: Activity },
-            { title: "Native Migration", desc: "Our platform handles the heavy lifting when moving from legacy tools.", icon: BarChart3 },
-            { title: "Global Compliance", desc: "Bespoke analytics and local infrastructure for multi-location brands.", icon: Globe }
+            { title: "No Lock-in Ever",   desc: "Your data is yours, always compliant by default.",                       icon: Shield    },
+            { title: "HR Logic",          desc: "Focuses on item features for booking, staff and reports.",               icon: Activity  },
+            { title: "Native Migration",  desc: "Our platform handles the heavy lifting when moving from legacy tools.",  icon: BarChart3 },
+            { title: "Global Compliance", desc: "Bespoke analytics and local infrastructure for multi-location brands.", icon: Globe     }
           ].map((item, i) => (
             <div key={i}>
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#111827] mb-2 flex items-center gap-1.5">
-                <item.icon size={10} className="text-[#207D40]" /> {item.title}
-              </h4>
-              <p className="text-[10px] text-gray-400 font-medium leading-relaxed">{item.desc}</p>
+              <div style={{ width: '40px', height: '40px', borderRadius: '11px', background: Gr(0.08), border: `1px solid ${Gr(0.2)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+                <item.icon size={17} color={G} />
+              </div>
+              <h4 style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#111827', marginBottom: '8px' }}>{item.title}</h4>
+              <p style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 400, lineHeight: 1.7 }}>{item.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* BESPOKE CONSULTATION FINAL SECTION */}
-      <section className="relative py-32 overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="\images\cta2.jpeg" 
-            className="w-full h-full object-cover"
-            alt="Zen Spa Treatment"
-          />
-          <div className="absolute inset-0 bg-[#020406]/90 mix-blend-multiply backdrop-blur-sm"></div>
+      {/* ── FINAL CTA ── */}
+      <section style={{ position: 'relative', overflow: 'hidden', padding: '140px 5vw' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img src="/images/cta2.jpeg" alt="Zen Spa Treatment" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(2,4,6,0.88)' }} />
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
         </div>
-        
-        <div className="container mx-auto px-4 md:px-8 relative z-10 text-center text-white">
-          <div className="max-w-4xl mx-auto">
-             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tighter mb-6 leading-tight">
-                Bespoke <br />
-                <span className="text-[#207D40]">Consultation</span> <br />
-                Available.
-             </h2>
-             <p className="text-sm md:text-base text-gray-300 font-medium mb-10 max-w-xl mx-auto leading-relaxed opacity-80">
-              Don't fit into a standard box? Our enterprise strategists are ready to craft a unique configuration just for your brand's vision.
-             </p>
-             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button className="w-full sm:w-auto bg-[#207D40] text-white px-10 py-4 rounded-xl font-black text-base hover:bg-[#1a6333] transition-all flex items-center justify-center gap-2 group shadow-2xl">
-                  Book a Strategy Session <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="w-full sm:w-auto bg-transparent border-2 border-white/20 text-white px-8 py-4 rounded-xl font-black text-base hover:bg-white/10 transition-all">
-                  View Case Studies
-                </button>
-             </div>
+        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '24px' }}>
+            <div style={{ width: '24px', height: '2px', background: G }} />
+            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.45em', textTransform: 'uppercase', color: G }}>Bespoke</span>
+            <div style={{ width: '24px', height: '2px', background: G }} />
           </div>
+          <h2 style={{ fontSize: 'clamp(40px, 5vw, 72px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '20px' }}>
+            Bespoke<br /><span style={{ color: G }}>Consultation</span><br />Available.
+          </h2>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.78, marginBottom: '48px', fontWeight: 400 }}>
+            Don't fit into a standard box? Our enterprise strategists are ready to craft a unique configuration just for your brand's vision.
+          </p>
+          <button className="cta-primary" style={{ padding: '18px 48px', fontSize: '13px' }}>
+            Book a Strategy Session <ArrowRight size={15} />
+          </button>
         </div>
       </section>
-
-      <style>{`
-        .custom-table-scroll::-webkit-scrollbar { height: 6px; }
-        .custom-table-scroll::-webkit-scrollbar-track { background: #F5F7FA; border-radius: 4px; }
-        .custom-table-scroll::-webkit-scrollbar-thumb { background: linear-gradient(to right, #207D40, #F7A300); border-radius: 4px; }
-      `}</style>
     </div>
   );
 };
