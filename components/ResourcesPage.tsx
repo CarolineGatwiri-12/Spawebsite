@@ -15,7 +15,7 @@ const blogPosts = [
     category: 'ERP',
     title: 'Spa ERP vs Booking Software: What’s the Difference?',
     preview: 'Understand why professional management requires more than just a calendar. Learn how ERP logic transforms back-of-house operations.',
-    image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    image: '/images/Dash.png',
     date: 'Oct 12, 2024',
     readTime: '8 min read'
   },
@@ -24,7 +24,7 @@ const blogPosts = [
     category: 'Operations',
     title: 'How to Reduce No-Shows in Your Spa',
     preview: 'Practical systems and automated workflows that ensure your therapists remain productive and your schedule stays full.',
-    image: 'https://media.istockphoto.com/id/1388628687/photo/woman-at-the-spa-getting-a-rejuvenation-treatment-on-her-face.jpg?s=612x612&w=0&k=20&c=fh7l3oMeJ3ObFltVw_ErEMO_4jlQN6eIoYB5Ui2_DsY=',
+    image: '/images/Orders.png',
     date: 'Oct 08, 2024',
     readTime: '6 min read'
   },
@@ -33,7 +33,7 @@ const blogPosts = [
     category: 'Inventory',
     title: 'Inventory Management Best Practices for Spas',
     preview: 'Eliminate waste and optimize retail sales with precision tracking. See how professional inventory modules prevent stock-outs.',
-    image: 'https://plus.unsplash.com/premium_photo-1675744019226-469d159d1bf0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    image: '/images/modules.png',
     date: 'Sep 28, 2024',
     readTime: '10 min read'
   },
@@ -42,7 +42,7 @@ const blogPosts = [
     category: 'Growth',
     title: 'How ERP Helps Multi-Branch Spas Scale',
     preview: 'Scaling shouldn’t mean complexity. Explore how unified systems allow owners to manage 10+ locations from a single dashboard.',
-    image: '/images/DSC06640.jpg',
+    image: '/images/Acccounting.png',
     date: 'Sep 15, 2024',
     readTime: '12 min read'
   },
@@ -51,7 +51,7 @@ const blogPosts = [
      category: 'Growth',
     title: '5 Metrics Every Spa Owner Should Monitor Daily',
     preview: 'Move beyond total revenue. Discover the critical performance indicators that signal real business health and sustainability.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=cro',
+    image: '/images/image5.png',
     date: 'Aug 25, 2024',
     readTime: '7 min read'
   },
@@ -268,25 +268,6 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
         </div>
       </section>
       
-      {/* FINAL CTA STRIP */}
-      <div className="py-16 bg-white">
-         <div className="container mx-auto px-4 md:px-8">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 p-8 bg-white rounded-[2rem] border border-gray-100 shadow-xl">
-               <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-[#207D40]">
-                     <Activity size={20} className="animate-pulse" />
-                  </div>
-                  <div>
-                    <h4 className="text-base font-black text-[#111827] tracking-tight">Looking for specific data?</h4>
-                    <p className="text-[11px] text-gray-400 font-bold">Our research can provide localized reports for your region.</p>
-                  </div>
-               </div>
-               <button className="bg-[#111827] text-white px-8 py-3 rounded-xl font-black text-[11px] hover:bg-gray-800 transition-all active:scale-95">
-                  Request Custom Research
-               </button>
-            </div>
-         </div>
-      </div>
       
       <style>{`
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }

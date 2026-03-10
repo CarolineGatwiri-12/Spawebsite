@@ -114,7 +114,7 @@ const PartnerSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="relative max-w-8xl mx-auto px-6 lg:px-10">
+      <div className="relative max-w-screen-2xl mx-auto px-6 lg:px-16">
         {/* ── Section header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
