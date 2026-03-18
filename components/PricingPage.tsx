@@ -13,9 +13,76 @@ const Am = (a) => `rgba(245,168,0,${a})`;     // amber with alpha
 // ────────────────────────────────────────────────────────────────
 
 const plans = [
-  { id: 'starter', name: "Starter", icon: Rocket,   price: "3,999",  tagline: "The foundation for solo artists and boutique salons.", features: ["Appointment Scheduling","Online Booking","Client Management","Basic Reports","SMS & Email Reminders"], buttonText: "Start Free Trial",          theme: "light" },
-  { id: 'growth',  name: "Growth",  icon: Sparkles, price: "7,499",  tagline: "The engine for ambitious, multi-service teams.",        features: ["All Starter Features","Product Inventory","Marketing Campaigns","Gift Vouchers","Discount Coupon Codes","Staff Management"], buttonText: "Join the Elite",             theme: "green", popular: true },
-  { id: 'pro',     name: "Pro",     icon: Landmark, price: "11,999", tagline: "The ultimate command center for enterprises.",          features: ["All Growth Features","Multi-Location Management","Advanced Analytics","Data Export & API","Priority 24/7 Support","Incentive Management"], buttonText: "Request Enterprise Access", theme: "dark"  }
+  {
+    id: 'basic',
+    name: "Basic",
+    icon: Rocket,
+    price: "3,000",
+    tagline: "Perfect for small businesses starting out.",
+    features: [
+      "1–3 Users Management",
+      "Unlimited Appointment Scheduling",
+      "Lead Management",
+      "Vouchers Management",
+      "Subscription Management",
+      "Unlimited Inventory/Service Management",
+      "Payroll Management",
+      "Reports & Analytics",
+      "Payment Gateway",
+      "Stock & Inventory Management",
+      "Unlimited Scheduling",
+      "One-off Onboarding: KES 30,000"
+    ],
+    buttonText: "Start Free Trial",
+    theme: "light"
+  },
+  {
+    id: 'standard',
+    name: "Standard",
+    icon: Sparkles,
+    price: "5,000",
+    tagline: "Designed for growing medium to high-end businesses.",
+    features: [
+      "4–20 Users Management",
+      "Unlimited Appointment Scheduling",
+      "Lead Management",
+      "Vouchers Management",
+      "Subscription Management",
+      "Unlimited Inventory/Service Management",
+      "Payroll Management",
+      "Reports & Analytics",
+      "Payment Gateway",
+      "Stock & Inventory Management",
+      "Unlimited Scheduling",
+      "One-off Onboarding: KES 40,000"
+    ],
+    buttonText: "Join the Standard Plan",
+    theme: "green",
+    popular: true
+  },
+  {
+    id: 'premium',
+    name: "Premium",
+    icon: Landmark,
+    price: "10,000",
+    tagline: "Built for high-end spa businesses at scale.",
+    features: [
+      "Unlimited Users Management",
+      "Unlimited Appointment Scheduling",
+      "Lead Management",
+      "Vouchers Management",
+      "Subscription Management",
+      "Unlimited Inventory/Service Management",
+      "Payroll Management",
+      "Reports & Analytics",
+      "Payment Gateway",
+      "Stock & Inventory Management",
+      "Unlimited Scheduling",
+      "One-off Onboarding: KES 50,000"
+    ],
+    buttonText: "Request Premium Access",
+    theme: "dark"
+  }
 ];
 
 const comparisonData = [
