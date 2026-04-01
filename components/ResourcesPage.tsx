@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import { 
-  Search, ArrowRight, Bookmark, Clock, User, Sparkles, 
-  ArrowUpRight, BarChart3, ShieldCheck, Download, ChevronRight,
-  TrendingUp, Activity, Inbox, Calendar, Mail
-} from 'lucide-react';
-
-interface ResourcesPageProps {
-  onNavigate: (page: 'home' | 'features' | 'pricing' | 'about' | 'resources' | 'faq' | 'contact') => void;
-}
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+  Search,
+  ArrowRight,
+  Bookmark,
+  Clock,
+  User,
+  Sparkles,
+  ArrowUpRight,
+  BarChart3,
+  ShieldCheck,
+  Download,
+  ChevronRight,
+  TrendingUp,
+  Activity,
+  Inbox,
+  Calendar,
+  Mail
+} from 'lucide-react'
 
 const blogPosts = [
   {
     id: 1,
     category: 'ERP',
     title: 'Spa ERP vs Booking Software: What’s the Difference?',
-    preview: 'Understand why professional management requires more than just a calendar. Learn how ERP logic transforms back-of-house operations.',
+    preview:
+      'Understand why professional management requires more than just a calendar. Learn how ERP logic transforms back-of-house operations.',
     image: '/images/Dash.png',
     date: 'Oct 12, 2024',
     readTime: '8 min read'
@@ -23,7 +34,8 @@ const blogPosts = [
     id: 2,
     category: 'Operations',
     title: 'How to Reduce No-Shows in Your Spa',
-    preview: 'Practical systems and automated workflows that ensure your therapists remain productive and your schedule stays full.',
+    preview:
+      'Practical systems and automated workflows that ensure your therapists remain productive and your schedule stays full.',
     image: '/images/Orders.png',
     date: 'Oct 08, 2024',
     readTime: '6 min read'
@@ -32,7 +44,8 @@ const blogPosts = [
     id: 3,
     category: 'Inventory',
     title: 'Inventory Management Best Practices for Spas',
-    preview: 'Eliminate waste and optimize retail sales with precision tracking. See how professional inventory modules prevent stock-outs.',
+    preview:
+      'Eliminate waste and optimize retail sales with precision tracking. See how professional inventory modules prevent stock-outs.',
     image: '/images/modules.png',
     date: 'Sep 28, 2024',
     readTime: '10 min read'
@@ -41,65 +54,72 @@ const blogPosts = [
     id: 4,
     category: 'Growth',
     title: 'How ERP Helps Multi-Branch Spas Scale',
-    preview: 'Scaling shouldn’t mean complexity. Explore how unified systems allow owners to manage 10+ locations from a single dashboard.',
+    preview:
+      'Scaling shouldn’t mean complexity. Explore how unified systems allow owners to manage 10+ locations from a single dashboard.',
     image: '/images/Acccounting.png',
     date: 'Sep 15, 2024',
     readTime: '12 min read'
   },
   {
     id: 5,
-     category: 'Growth',
+    category: 'Growth',
     title: '5 Metrics Every Spa Owner Should Monitor Daily',
-    preview: 'Move beyond total revenue. Discover the critical performance indicators that signal real business health and sustainability.',
+    preview:
+      'Move beyond total revenue. Discover the critical performance indicators that signal real business health and sustainability.',
     image: '/images/image5.png',
     date: 'Aug 25, 2024',
     readTime: '7 min read'
   },
   {
     id: 6,
-   category: 'Case Studies',
+    category: 'Case Studies',
     title: 'Case Study: How ERP Increased Spa Revenue by 40%',
-    preview: 'A detailed walkthrough of how Zenith Wellness migrated to MySpa and optimized their resource allocation for massive growth.',
+    preview:
+      'A detailed walkthrough of how Zenith Wellness migrated to MySpa and optimized their resource allocation for massive growth.',
     image: 'images/DSC06632.jpg',
     date: 'Sep 10, 2024',
     readTime: '15 min read'
   }
-];
+]
 
-const categories = ['All', 'ERP', 'Growth', 'Inventory', 'Case Studies'];
+const categories = ['All', 'ERP', 'Growth', 'Inventory', 'Case Studies']
+const ResourcesPage: React.FC = () => {
+  const navigate = useNavigate()
+  const [activeCategory, setActiveCategory] = useState('All')
 
-const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const filteredPosts = activeCategory === 'All' 
-    ? blogPosts 
-    : blogPosts.filter(post => post.category === activeCategory);
+  const filteredPosts =
+    activeCategory === 'All'
+      ? blogPosts
+      : blogPosts.filter(post => post.category === activeCategory)
 
   return (
     <div className="bg-white text-[#111827] font-['Inter'] selection:bg-[#207D40] selection:text-white">
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-28 overflow-hidden border-b border-gray-50">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-[#F8FAFC] pointer-events-none skew-x-[-6deg] translate-x-12"></div>
-        
-        <div className="container mx-auto px-4 md:px-8 text-center relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="h-px w-8 bg-[#207D40]/30"></span>
-              <span className="text-[11px] font-black uppercase tracking-[0.4em] text-[#207D40]">Knowledge Hub</span>
-              <span className="h-px w-8 bg-[#207D40]/30"></span>
+      <section className='relative pt-32 pb-20 lg:pt-48 lg:pb-28 overflow-hidden border-b border-gray-50'>
+        <div className='absolute top-0 right-0 w-1/3 h-full bg-[#F8FAFC] pointer-events-none skew-x-[-6deg] translate-x-12'></div>
+
+        <div className='container mx-auto px-4 md:px-8 text-center relative z-10'>
+          <div className='max-w-4xl mx-auto'>
+            <div className='flex items-center justify-center gap-3 mb-6'>
+              <span className='h-px w-8 bg-[#207D40]/30'></span>
+              <span className='text-[11px] font-black uppercase tracking-[0.4em] text-[#207D40]'>
+                Knowledge Hub
+              </span>
+              <span className='h-px w-8 bg-[#207D40]/30'></span>
             </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.1] text-[#111827] mb-8">
+
+            <h1 className='text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.1] text-[#111827] mb-8'>
               Insights to Help You <br />
-              <span className="text-[#207D40]">Grow & Manage</span> <br />
+              <span className='text-[#207D40]'>Grow & Manage</span> <br />
               Your Spa Better.
             </h1>
-            
-            <p className="text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto leading-relaxed mb-10">
-              Our resources are designed to help spa owners make informed decisions, improve operations, and grow sustainably.
+
+            <p className='text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto leading-relaxed mb-10'>
+              Our resources are designed to help spa owners make informed
+              decisions, improve operations, and grow sustainably.
             </p>
-            
-            <button className="bg-[#F7A300] text-white px-8 py-3.5 rounded-xl font-black text-xs hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/10 active:scale-95">
+
+            <button className='bg-[#F7A300] text-white px-8 py-3.5 rounded-xl font-black text-xs hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/10 active:scale-95'>
               Subscribe for Spa Growth Insights
             </button>
           </div>
@@ -107,18 +127,20 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ARTICLES GRID */}
-      <section className="py-20 bg-[#F8FAFC]/50">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight border-l-4 border-[#207D40] pl-5">Featured Insights</h2>
-            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white rounded-xl border border-gray-100 shadow-sm">
-              {categories.map((cat) => (
+      <section className='py-20 bg-[#F8FAFC]/50'>
+        <div className='container mx-auto px-4 md:px-8'>
+          <div className='flex flex-col md:flex-row items-center justify-between gap-6 mb-12'>
+            <h2 className='text-2xl md:text-3xl font-black tracking-tight border-l-4 border-[#207D40] pl-5'>
+              Featured Insights
+            </h2>
+            <div className='flex flex-wrap items-center gap-1.5 p-1 bg-white rounded-xl border border-gray-100 shadow-sm'>
+              {categories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   className={`px-4 py-1.5 rounded-lg text-[11px] font-black transition-all ${
-                    activeCategory === cat 
-                      ? 'bg-[#111827] text-white shadow-md' 
+                    activeCategory === cat
+                      ? 'bg-[#111827] text-white shadow-md'
                       : 'text-gray-400 hover:text-gray-900'
                   }`}
                 >
@@ -128,31 +150,47 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <div 
-                key={post.id} 
-                className="group bg-white rounded-[1.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col"
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {filteredPosts.map(post => (
+              <div
+                key={post.id}
+                className='group bg-white rounded-[1.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col'
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000 block" />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-[#207D40] text-white px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">
+                <div className='relative aspect-[16/10] overflow-hidden'>
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className='w-full h-full object-cover group-hover:scale-105 transition-all duration-1000 block'
+                  />
+                  <div className='absolute top-4 left-4'>
+                    <span className='bg-[#207D40] text-white px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest'>
                       {post.category}
                     </span>
                   </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="flex items-center gap-3 text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-                    <span className="flex items-center gap-1"><Clock size={10} className="text-[#207D40]" /> {post.readTime}</span>
-                    <span className="flex items-center gap-1"><Calendar size={10} className="text-[#F7A300]" /> {post.date}</span>
+                <div className='p-6 flex flex-col flex-grow'>
+                  <div className='flex items-center gap-3 text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3'>
+                    <span className='flex items-center gap-1'>
+                      <Clock size={10} className='text-[#207D40]' />{' '}
+                      {post.readTime}
+                    </span>
+                    <span className='flex items-center gap-1'>
+                      <Calendar size={10} className='text-[#F7A300]' />{' '}
+                      {post.date}
+                    </span>
                   </div>
-                  <h3 className="text-base font-black text-[#111827] mb-3 leading-tight group-hover:text-[#207D40] transition-colors line-clamp-2">
+                  <h3 className='text-base font-black text-[#111827] mb-3 leading-tight group-hover:text-[#207D40] transition-colors line-clamp-2'>
                     {post.title}
                   </h3>
-                  <p className="text-gray-400 text-[12px] leading-relaxed mb-6 flex-grow line-clamp-2">{post.preview}</p>
-                  <button className="flex items-center gap-1.5 text-[11px] font-black text-[#207D40] group/btn w-fit">
-                    Read More <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
+                  <p className='text-gray-400 text-[12px] leading-relaxed mb-6 flex-grow line-clamp-2'>
+                    {post.preview}
+                  </p>
+                  <button className='flex items-center gap-1.5 text-[11px] font-black text-[#207D40] group/btn w-fit'>
+                    Read More{' '}
+                    <ArrowRight
+                      size={12}
+                      className='group-hover/btn:translate-x-1 transition-transform'
+                    />
                   </button>
                 </div>
               </div>
@@ -162,49 +200,61 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* WHY SPA OWNERS TRUST SECTION */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-1/2">
-               <div className="flex items-center gap-3 mb-6">
-                <span className="h-[2px] w-6 bg-[#F7A300]"></span>
-                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-[#F7A300]">Educational Foundation</span>
+      <section className='py-20 bg-white overflow-hidden'>
+        <div className='container mx-auto px-4 md:px-8'>
+          <div className='flex flex-col lg:flex-row items-center gap-16'>
+            <div className='lg:w-1/2'>
+              <div className='flex items-center gap-3 mb-6'>
+                <span className='h-[2px] w-6 bg-[#F7A300]'></span>
+                <span className='text-[11px] font-black uppercase tracking-[0.4em] text-[#F7A300]'>
+                  Educational Foundation
+                </span>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight text-[#111827] mb-8">
+              <h2 className='text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight text-[#111827] mb-8'>
                 Why Spa Owners <br /> Trust Our Insights.
               </h2>
-              <p className="text-sm text-gray-400 font-medium leading-relaxed mb-10">
-                Our content is built on real ERP implementation experience across Africa. Every guide reflects practical systems designed to increase revenue and support growth.
+              <p className='text-sm text-gray-400 font-medium leading-relaxed mb-10'>
+                Our content is built on real ERP implementation experience
+                across Africa. Every guide reflects practical systems designed
+                to increase revenue and support growth.
               </p>
-              
-              <div className="grid grid-cols-2 gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center text-[#207D40]">
+
+              <div className='grid grid-cols-2 gap-6'>
+                <div className='flex items-center gap-3'>
+                  <div className='w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center text-[#207D40]'>
                     <ShieldCheck size={16} />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-black uppercase">Practical Systems</h4>
-                    <p className="text-[10px] text-gray-400 font-bold">Built for real-world owners</p>
+                    <h4 className='text-[11px] font-black uppercase'>
+                      Practical Systems
+                    </h4>
+                    <p className='text-[10px] text-gray-400 font-bold'>
+                      Built for real-world owners
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-[#F7A300]">
+                <div className='flex items-center gap-3'>
+                  <div className='w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-[#F7A300]'>
                     <TrendingUp size={16} />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-black uppercase">Growth Focused</h4>
-                    <p className="text-[10px] text-gray-400 font-bold">KPI and ROI focused</p>
+                    <h4 className='text-[11px] font-black uppercase'>
+                      Growth Focused
+                    </h4>
+                    <p className='text-[10px] text-gray-400 font-bold'>
+                      KPI and ROI focused
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
-            <div className="lg:w-1/2 relative">
-              <div className="relative rounded-[2rem] overflow-hidden shadow-xl">
-                <img 
-                  src="/images/spa.jpeg" 
-                  alt="MySpa Insights Tablet" 
-                  className="w-full h-auto block"
+
+            <div className='lg:w-1/2 relative'>
+              <div className='relative rounded-[2rem] overflow-hidden shadow-xl'>
+                <img
+                  src='/images/spa.jpeg'
+                  alt='MySpa Insights Tablet'
+                  className='w-full h-auto block'
                 />
               </div>
             </div>
@@ -213,62 +263,68 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* STAY AHEAD SUBSCRIPTION SECTION */}
-      <section className="relative py-24 overflow-hidden">
+      <section className='relative py-24 overflow-hidden'>
         {/* Section-wide Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=2070&auto=format&fit=crop" 
-            className="w-full h-full object-cover opacity-[0.03] scale-110 grayscale block"
-            alt="Soft Background Pattern"
+        <div className='absolute inset-0 z-0'>
+          <img
+            src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=2070&auto=format&fit=crop'
+            className='w-full h-full object-cover opacity-[0.03] scale-110 grayscale block'
+            alt='Soft Background Pattern'
           />
         </div>
-        
-        <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="relative rounded-[3rem] overflow-hidden min-h-[450px] flex items-center justify-center shadow-2xl border border-gray-100">
+
+        <div className='container mx-auto px-4 md:px-8 relative z-10'>
+          <div className='relative rounded-[3rem] overflow-hidden min-h-[450px] flex items-center justify-center shadow-2xl border border-gray-100'>
             {/* Card Internal Background Image */}
-            <img 
-              src="/images/ESPA-Innovation-2022.png" 
-              className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[2000ms] block"
-              alt="Massage Background"
+            <img
+              src='/images/ESPA-Innovation-2022.png'
+              className='absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[2000ms] block'
+              alt='Massage Background'
             />
             {/* Elegant Brand Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#111827]/95 via-[#111827]/80 to-[#207D40]/40 backdrop-blur-[3px]"></div>
-            
-            <div className="relative z-10 text-center max-w-xl px-6 py-12">
-              <div className="w-12 h-12 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl flex items-center justify-center text-[#F7A300] mx-auto mb-8 shadow-xl">
-                <Mail size={22} className="animate-bounce-slow" />
+            <div className='absolute inset-0 bg-gradient-to-br from-[#111827]/95 via-[#111827]/80 to-[#207D40]/40 backdrop-blur-[3px]'></div>
+
+            <div className='relative z-10 text-center max-w-xl px-6 py-12'>
+              <div className='w-12 h-12 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl flex items-center justify-center text-[#F7A300] mx-auto mb-8 shadow-xl'>
+                <Mail size={22} className='animate-bounce-slow' />
               </div>
-              
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tighter mb-6 leading-tight">
-                Stay Ahead in the <br /> 
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F7A300] to-orange-300">Spa Industry.</span>
+
+              <h2 className='text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tighter mb-6 leading-tight'>
+                Stay Ahead in the <br />
+                <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#F7A300] to-orange-300'>
+                  Spa Industry.
+                </span>
               </h2>
-              
-              <p className="text-gray-300 text-sm font-medium mb-10 leading-relaxed opacity-90">
-                Get expert insights, ERP best practices, and operational strategies delivered to your salon every month.
+
+              <p className='text-gray-300 text-sm font-medium mb-10 leading-relaxed opacity-90'>
+                Get expert insights, ERP best practices, and operational
+                strategies delivered to your salon every month.
               </p>
-              
-              <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <input 
-                  type="email" 
-                  placeholder="Professional email" 
-                  className="flex-grow bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl font-semibold focus:outline-none focus:ring-2 focus:ring-[#F7A300]/50 shadow-2xl text-sm transition-all"
+
+              <div className='flex flex-col sm:flex-row gap-3 mb-10'>
+                <input
+                  type='email'
+                  placeholder='Professional email'
+                  className='flex-grow bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl font-semibold focus:outline-none focus:ring-2 focus:ring-[#F7A300]/50 shadow-2xl text-sm transition-all'
                 />
-                <button className="bg-[#F7A300] hover:bg-orange-600 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl active:scale-95 whitespace-nowrap">
+                <button className='bg-[#F7A300] hover:bg-orange-600 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl active:scale-95 whitespace-nowrap'>
                   Subscribe
                 </button>
               </div>
-              
-              <div className="flex justify-center gap-10">
-                <button className="text-[11px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-[#F7A300] transition-colors border-b border-white/10 pb-1">Download Guides</button>
-                <button className="text-[11px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-[#207D40] transition-colors border-b border-white/10 pb-1">Book a Demo</button>
+
+              <div className='flex justify-center gap-10'>
+                <button className='text-[11px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-[#F7A300] transition-colors border-b border-white/10 pb-1'>
+                  Download Guides
+                </button>
+                <button className='text-[11px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-[#207D40] transition-colors border-b border-white/10 pb-1'>
+                  Book a Demo
+                </button>
               </div>
             </div>
           </div>
         </div>
       </section>
-      
-      
+
       <style>{`
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-marquee { display: inline-flex; animation: marquee 30s linear infinite; }
@@ -282,7 +338,7 @@ const ResourcesPage: React.FC<ResourcesPageProps> = ({ onNavigate }) => {
         }
       `}</style>
     </div>
-  );
-};
+  )
+}
 
-export default ResourcesPage;
+export default ResourcesPage
