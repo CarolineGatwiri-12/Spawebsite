@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:8000/api'
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8000/api'
 
 export async function submitContact (data: {
   name: string
@@ -6,7 +6,7 @@ export async function submitContact (data: {
   subject: string
   message: string
 }) {
-  const res = await fetch(`${BASE_URL}/contact`, {
+  const res = await fetch(`${API_BASE_URL}/contact`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -26,7 +26,7 @@ export async function submitInquiry (data: {
   plan: string
   duration: string
 }) {
-  const res = await fetch(`${BASE_URL}/inquiry`, {
+  const res = await fetch(`${API_BASE_URL}/inquiry`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -39,7 +39,7 @@ export async function submitInquiry (data: {
 }
 
 export async function fetchConfig () {
-  const res = await fetch(`${BASE_URL}/config`)
+  const res = await fetch(`${API_BASE_URL}/config`)
   if (!res.ok) {
     throw new Error('Failed to fetch config')
   }
@@ -47,7 +47,7 @@ export async function fetchConfig () {
 }
 
 export async function subscribeNewsletter(data: { firstname: string; email: string }) {
-  const res = await fetch(`${BASE_URL}/subscribe`, {
+  const res = await fetch(`${API_BASE_URL}/subscribe`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
