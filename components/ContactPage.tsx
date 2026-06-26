@@ -18,6 +18,7 @@ const ContactPage: React.FC = () => {
   const [form, setForm] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   })
@@ -31,14 +32,26 @@ const ContactPage: React.FC = () => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  const formatPhoneForBackend = (raw: string): string => {
+    const trimmed = raw.trim()
+    // Keep an explicit international number as-is (digits only after the +).
+    if (trimmed.startsWith('+')) {
+      return '+' + trimmed.slice(1).replace(/\D/g, '')
+    }
+    const digits = trimmed.replace(/\D/g, '')
+    if (digits.startsWith('254')) return '+' + digits
+    if (digits.startsWith('0')) return '+254' + digits.slice(1)
+    return '+254' + digits
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
     try {
-      await submitContact(form)
+      await submitContact({ ...form, phone: formatPhoneForBackend(form.phone) })
       setSuccess(true)
-      setForm({ name: '', email: '', subject: '', message: '' })
+      setForm({ name: '', email: '', phone: '', subject: '', message: '' })
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.')
     } finally {
@@ -48,7 +61,6 @@ const ContactPage: React.FC = () => {
 
   return (
     <div className='bg-white min-h-screen'>
-      {/* HERO SECTION */}
       <section className='relative pt-28 pb-10 lg:pt-36 lg:pb-14 overflow-hidden'>
         <div className='absolute inset-0 z-0'>
           <div className='absolute top-0 right-0 w-1/3 h-full bg-[#F8FAFC] pointer-events-none skew-x-[-6deg] translate-x-12'></div>
@@ -188,139 +200,167 @@ const ContactPage: React.FC = () => {
                     >
                       View on Map <ArrowRight size={12} />
                     </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT: CONTACT FORM */}
-          <div className='bg-white p-10 lg:p-14 rounded-[3rem] border border-gray-100 shadow-2xl h-full flex flex-col'>
-            <div className='mb-10'>
-              <h3 className='text-lg font-black text-[#111827] mb-2 tracking-tight'>
-                Send a Message
-              </h3>
-              <p className='text-[11px] text-gray-400 font-bold uppercase tracking-widest'>
-                Typical response time: &lt; 2 hours
-              </p>
-            </div>
-
-            {/* Success state */}
-            {success ? (
-              <div className='flex-1 flex flex-col items-center justify-center text-center gap-4'>
-                <div className='w-16 h-16 rounded-full bg-[#207D40]/10 flex items-center justify-center'>
-                  <CheckCircle size={32} className='text-[#207D40]' />
-                </div>
-                <h4 className='text-lg font-black text-[#111827]'>Message Sent!</h4>
-                <p className='text-sm text-gray-500 font-medium'>
-                  We'll get back to you within 2 hours.
-                </p>
-                <button
-                  onClick={() => setSuccess(false)}
-                  className='mt-4 text-[11px] font-black uppercase tracking-widest text-[#207D40] border-b-2 border-[#207D40] pb-1'
-                >
-                  Send Another
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className='space-y-6 flex flex-col flex-1'>
-                {error && (
-                  <div className='flex items-center gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-3'>
-                    <AlertCircle size={16} className='text-red-500 flex-shrink-0' />
-                    <p className='text-xs font-medium text-red-600'>{error}</p>
                   </div>
-                )}
-                <div className='grid sm:grid-cols-2 gap-6'>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT: CONTACT FORM */}
+            <div className='bg-white p-10 lg:p-14 rounded-[3rem] border border-gray-100 shadow-2xl h-full flex flex-col'>
+              <div className='mb-10'>
+                <h3 className='text-lg font-black text-[#111827] mb-2 tracking-tight'>
+                  Send a Message
+                </h3>
+                <p className='text-[11px] text-gray-400 font-bold uppercase tracking-widest'>
+                  Typical response time: &lt; 2 hours
+                </p>
+              </div>
+
+              {/* Success state */}
+              {success ? (
+                <div className='flex-1 flex flex-col items-center justify-center text-center gap-4'>
+                  <div className='w-16 h-16 rounded-full bg-[#207D40]/10 flex items-center justify-center'>
+                    <CheckCircle size={32} className='text-[#207D40]' />
+                  </div>
+                  <h4 className='text-lg font-black text-[#111827]'>
+                    Message Sent!
+                  </h4>
+                  <p className='text-sm text-gray-500 font-medium'>
+                    We'll get back to you within 2 hours.
+                  </p>
+                  <button
+                    onClick={() => setSuccess(false)}
+                    className='mt-4 text-[11px] font-black uppercase tracking-widest text-[#207D40] border-b-2 border-[#207D40] pb-1'
+                  >
+                    Send Another
+                  </button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className='space-y-6 flex flex-col flex-1'
+                >
+                  {error && (
+                    <div className='flex items-center gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-3'>
+                      <AlertCircle
+                        size={16}
+                        className='text-red-500 flex-shrink-0'
+                      />
+                      <p className='text-xs font-medium text-red-600'>
+                        {error}
+                      </p>
+                    </div>
+                  )}
+                  <div className='grid sm:grid-cols-2 gap-6'>
+                    <div className='space-y-2'>
+                      <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
+                        Full Name
+                      </label>
+                      <input
+                        type='text'
+                        name='name'
+                        value={form.name}
+                        onChange={handleChange}
+                        required
+                        className='w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium'
+                        placeholder='Jane Doe'
+                      />
+                    </div>
+                    <div className='space-y-2'>
+                      <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
+                        Email Address
+                      </label>
+                      <input
+                        type='email'
+                        name='email'
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                        className='w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium'
+                        placeholder='jane@spa.com'
+                      />
+                    </div>
+                  </div>
                   <div className='space-y-2'>
                     <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
-                      Full Name
+                      Phone Number
+                    </label>
+                    <input
+                      type='tel'
+                      name='phone'
+                      value={form.phone}
+                      onChange={handleChange}
+                      required
+                      inputMode='tel'
+                      autoComplete='tel'
+                      pattern='[+0-9\s()-]{7,}'
+                      title='Enter a valid phone number, e.g. 0712 345 678 or +254712345678'
+                      className='w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium'
+                      placeholder='0712 345 678'
+                    />
+                  </div>
+                  <div className='space-y-2'>
+                    <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
+                      Subject
                     </label>
                     <input
                       type='text'
-                      name='name'
-                      value={form.name}
+                      name='subject'
+                      value={form.subject}
                       onChange={handleChange}
                       required
                       className='w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium'
-                      placeholder='Jane Doe'
+                      placeholder='e.g. Pricing inquiry, Demo request...'
                     />
                   </div>
-                  <div className='space-y-2'>
+                  <div className='space-y-2 flex-1 flex flex-col'>
                     <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
-                      Email Address
+                      Message
                     </label>
-                    <input
-                      type='email'
-                      name='email'
-                      value={form.email}
+                    <textarea
+                      rows={4}
+                      name='message'
+                      value={form.message}
                       onChange={handleChange}
                       required
-                      className='w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium'
-                      placeholder='jane@spa.com'
+                      className='flex-1 w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium resize-none'
+                      placeholder='Tell us about your brand vision...'
                     />
                   </div>
-                </div>
-                <div className='space-y-2'>
-                  <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
-                    Subject
-                  </label>
-                  <input
-                    type='text'
-                    name='subject'
-                    value={form.subject}
-                    onChange={handleChange}
-                    required
-                    className='w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium'
-                    placeholder='e.g. Pricing inquiry, Demo request...'
-                  />
-                </div>
-                <div className='space-y-2 flex-1 flex flex-col'>
-                  <label className='text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1'>
-                    Message
-                  </label>
-                  <textarea
-                    rows={4}
-                    name='message'
-                    value={form.message}
-                    onChange={handleChange}
-                    required
-                    className='flex-1 w-full bg-[#F8FAFC] border border-gray-100 rounded-xl px-5 py-3 focus:outline-none focus:border-[#207D40] transition-colors text-sm font-medium resize-none'
-                    placeholder='Tell us about your brand vision...'
-                  />
-                </div>
-                <button
-                  type='submit'
-                  disabled={loading}
-                  className='w-full bg-[#111827] hover:bg-[#207D40] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 group active:scale-[0.98] shadow-xl'
-                >
-                  {loading ? 'Sending...' : 'Send Inquiry'}
-                  {!loading && (
-                    <Send
-                      size={14}
-                      className='group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform'
-                    />
-                  )}
-                </button>
-              </form>
-            )}
+                  <button
+                    type='submit'
+                    disabled={loading}
+                    className='w-full bg-[#111827] hover:bg-[#207D40] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 group active:scale-[0.98] shadow-xl'
+                  >
+                    {loading ? 'Sending...' : 'Send Inquiry'}
+                    {!loading && (
+                      <Send
+                        size={14}
+                        className='group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform'
+                      />
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* FINAL FAQ REDIRECT */}
-    <section className='py-14 bg-gray-50/50'>
-      <div className='container mx-auto px-4 md:px-8 text-center'>
-        <div className='max-w-xl mx-auto'>
-          <button
-            onClick={() => navigate('/faq')}
-            className='text-[#207D40] font-black uppercase tracking-widest text-[11px] border-b-2 border-[#207D40] pb-1 hover:text-[#1a6333] transition-colors'
-          >
-            Go to FAQ Center
-          </button>
+      {/* FINAL FAQ REDIRECT */}
+      <section className='py-14 bg-gray-50/50'>
+        <div className='container mx-auto px-4 md:px-8 text-center'>
+          <div className='max-w-xl mx-auto'>
+            <button
+              onClick={() => navigate('/faq')}
+              className='text-[#207D40] font-black uppercase tracking-widest text-[11px] border-b-2 border-[#207D40] pb-1 hover:text-[#1a6333] transition-colors'
+            >
+              Go to FAQ Center
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
-  </div>
+      </section>
+    </div>
   )
 }
 

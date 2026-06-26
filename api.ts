@@ -3,6 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 export async function submitContact (data: {
   name: string
   email: string
+  phone: string
   subject: string
   message: string
 }) {
@@ -47,7 +48,7 @@ export async function fetchConfig () {
 }
 
 export async function subscribeNewsletter(data: { firstname: string; email: string }) {
-  const res = await fetch(`${API_BASE_URL}/subscribe`, {
+  const res = await fetch('https://api.myspa.co.ke/newsletter/subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
