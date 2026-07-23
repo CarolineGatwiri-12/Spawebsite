@@ -79,9 +79,15 @@ const Navbar: React.FC = () => {
 
         {/* Right side */}
         <div className='flex items-center gap-4'>
-          <button onClick={() => navigate('/contact')} className='bg-[#207D40] hover:bg-[#1a6333] text-white px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-[#207D40]/20'>
-            Book Demo
-          </button>
+          <a
+            href='https://app.myspa.co.ke/login'
+            className='hidden lg:inline-block text-[11px] font-black uppercase tracking-widest text-[#F7A300] hover:text-[#d98c00] transition-colors'
+          >
+            Login
+          </a>
+          <a href='https://app.myspa.co.ke/register' className='hidden lg:inline-block bg-[#207D40] hover:bg-[#1a6333] text-white px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-[#207D40]/20'>
+            Sign Up
+          </a>
           <button
             className='lg:hidden p-2 text-gray-600'
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -108,10 +114,19 @@ const Navbar: React.FC = () => {
               {link.name}
             </a>
           ))}
-          <div className='pt-4 border-t border-gray-100'>
-            <button className='text-left font-black uppercase tracking-widest text-[#F7A300]'>
+          <div className='pt-4 border-t border-gray-100 flex flex-col gap-4'>
+            <a
+              href='https://app.myspa.co.ke/login'
+              className='text-left font-black uppercase tracking-widest text-[#F7A300]'
+            >
               Login
-            </button>
+            </a>
+            <a
+              href='https://app.myspa.co.ke/register'
+              className='bg-[#207D40] hover:bg-[#1a6333] text-white text-center px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-[#207D40]/20'
+            >
+              Sign Up
+            </a>
           </div>
         </div>
       </div>
