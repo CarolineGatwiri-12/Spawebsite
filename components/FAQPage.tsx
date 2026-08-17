@@ -13,6 +13,8 @@ import {
   MessageCircle
 } from 'lucide-react'
 import { faqs, faqCategoryColors } from '@/data'
+import Seo from './Seo'
+import { faqPageSchema, graph, organizationSchema } from '@/seo/schema'
 
 const categoryColors = {
   General: { bg: '#f0fdf4', color: '#207D40', border: '#bbf7d0' },
@@ -37,8 +39,9 @@ const FAQPage = () => {
         minHeight: '100vh'
       }}
     >
+      <Seo path='/faq' jsonLd={graph(faqPageSchema(), organizationSchema())} />
+      {/* Poppins is loaded globally in index.html, so no @import is needed here. */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
         * { box-sizing: border-box; }
 
         .faq-row {
@@ -274,7 +277,7 @@ const FAQPage = () => {
             flexDirection: 'column'
           }}
         >
-          {/* Sticky panel — takes up all space above the badge */}
+          {/* Sticky panel: takes up all space above the badge */}
           <div
             style={{
               position: 'sticky',
@@ -378,10 +381,10 @@ const FAQPage = () => {
           {/* Spacer pushes badge to bottom of section */}
           <div style={{ flex: 1 }} />
 
-          {/* Trust badge — sits at the very bottom of the full-height aside */}
+          {/* Trust badge: sits at the very bottom of the full-height aside */}
         </aside>
 
-        {/* RIGHT — FAQ LIST */}
+        {/* RIGHT: FAQ LIST */}
         <main
           style={{
             background: '#f8fafc',

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Phone, Mail, Send, CheckCircle, Loader2 } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { fetchConfig, subscribeNewsletter } from '../api'
+import { footerRoutes } from '@/seo/routes'
 
 const Footer: React.FC = () => {
-  const navigate = useNavigate()
   const [subName, setSubName] = useState('')
   const [subEmail, setSubEmail] = useState('')
   const [honeypot, setHoneypot] = useState('')
@@ -36,27 +36,24 @@ const Footer: React.FC = () => {
     }
   }
 
-  const handleNav = (path: string) => {
-    navigate(path)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
   return (
     <footer className='bg-[#111827] text-white pt-20 pb-10 border-t border-gray-800'>
       <div className='container mx-auto px-4 md:px-8'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16'>
           <div>
-            <div
-              className='flex items-center gap-2 mb-6 cursor-pointer'
-              onClick={() => handleNav('/')}
+            <Link
+              to='/'
+              className='flex items-center gap-2 mb-6'
+              aria-label='MySpa home'
             >
               <img
                 src='/images/MYSPA.png'
-                alt='MySpa Logo'
+                alt='MySpa, spa and salon management software'
                 className='h-12 w-auto object-contain'
+                width={877}
+                height={297}
               />
-              <span className='text-2xl font-bold'></span>
-            </div>
+            </Link>
             <p className='text-gray-400 text-sm mb-6 leading-relaxed'>
               Leading the wellness industry with cutting-edge management tools.
               Powered by{' '}
@@ -93,20 +90,14 @@ const Footer: React.FC = () => {
               Explore
             </h4>
             <ul className='space-y-3 text-gray-400 text-xs font-bold'>
-              {[
-                { label: 'Home', path: '/' },
-                { label: 'Features', path: '/features' },
-                { label: 'Pricing', path: '/pricing' },
-                { label: 'FAQ', path: '/faq' },
-                { label: 'Contact', path: '/contact' }
-              ].map(item => (
-                <li key={item.path}>
-                  <button
-                    onClick={() => handleNav(item.path)}
+              {footerRoutes().map(route => (
+                <li key={route.path}>
+                  <Link
+                    to={route.path}
                     className='hover:text-[#207D40] transition-colors text-left uppercase tracking-widest'
                   >
-                    {item.label}
-                  </button>
+                    {route.navLabel}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -122,7 +113,7 @@ const Footer: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className='space-y-2'>
-                {/* Honeypot — hidden from real users */}
+                {/* Honeypot: hidden from real users */}
                 <input
                   type='text'
                   value={honeypot}
@@ -169,7 +160,9 @@ const Footer: React.FC = () => {
         </div>
 
         <div className='pt-10 border-t border-gray-800 text-center text-gray-500 text-[11px] font-black uppercase tracking-widest'>
-          <p>copyright © 2024 MySpa. All rights reserved.</p>
+          <p>
+            copyright © {new Date().getFullYear()} MySpa. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
