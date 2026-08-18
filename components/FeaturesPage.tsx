@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Seo from './Seo'
+import {
+  graph,
+  organizationSchema,
+  softwareApplicationSchema
+} from '@/seo/schema'
 import {
   Users,
   Sparkles,
@@ -33,6 +39,10 @@ const FeaturesPage: React.FC = () => {
 
   return (
     <div className='bg-white selection:bg-[#207D40] selection:text-white'>
+      <Seo
+        path='/features'
+        jsonLd={graph(softwareApplicationSchema(), organizationSchema())}
+      />
       {/* HERO SECTION */}
       <section className='relative pt-32 pb-20 lg:pt-48 lg:pb-28 overflow-hidden'>
         <div className='absolute top-0 right-0 w-1/3 h-full bg-[#F8FAFC] pointer-events-none skew-x-[-6deg] translate-x-12'></div>

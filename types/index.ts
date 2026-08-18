@@ -115,19 +115,42 @@ export interface Module {
 }
 
 // ── ArticlePage.tsx ─────────────────────────────────────────────
+
+/**
+ * Internal links to weave into a section's `body`. Each `text` must appear
+ * verbatim in the body; the renderer swaps that run of text for a <Link>.
+ */
+export interface ArticleLink {
+  text: string
+  to: string
+}
+
 export interface ArticleSection {
   heading?: string
   body?: string
   bullets?: string[]
+  links?: ArticleLink[]
 }
 
 export interface Article {
   slug: string
   category: string
   title: string
+  /** Human-readable date shown in the UI, e.g. 'Oct 12, 2024'. */
   date: string
+  /** ISO-8601 date, required by Article structured data and sitemap lastmod. */
+  datePublished: string
+  /** ISO-8601 date of the last meaningful edit. */
+  dateModified: string
+  author: string
   readTime: string
   image: string
+  /** Overrides the <title> tag. Falls back to `title` when omitted. */
+  metaTitle?: string
+  /** Meta description / OG description. Falls back to `intro` when omitted. */
+  metaDescription?: string
+  /** Short card copy for the /resources grid. Falls back to `intro`. */
+  preview?: string
   intro: string
   sections: ArticleSection[]
 }
